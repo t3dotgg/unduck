@@ -1,13 +1,18 @@
-import { getCustomBangs, saveCustomBangs } from "./utils";
+import {
+  getCustomBangs,
+  saveCustomBangs,
+  deleteCustomBang,
+  getDefaultBang,
+  saveDefaultBang,
+} from "./utils";
 import "./global.css";
 import { Footer } from "./components/footer";
+import { openModal } from "./components/modal";
 
-window.addEventListener("DOMContentLoaded", () => {
+function renderCustomBangsUI() {
   const app = document.querySelector<HTMLDivElement>("#app")!;
-  renderCustomBangsUI(app);
-});
+  let defaultBang = getDefaultBang();
 
-function renderCustomBangsUI(app: HTMLDivElement) {
   app.innerHTML = `
     <header class="site-header">
       <a href="/" class="btn border-none">
@@ -15,7 +20,12 @@ function renderCustomBangsUI(app: HTMLDivElement) {
         <span>Back to Unduck</span>
       </a>
     </header>
-    <main>
+    <main id="settings">
+      <div>
+        <h3>Default Bang</h3>
+        <input type="text" id="default-bang" name="default-bang" class="url-input" placeholder="e.g. g" value="${defaultBang}" />
+      </div>
+
       <div class="custom-bangs-header">
         <h3 class="custom-bangs-heading">Custom Bangs</h3>
         <span id="add-custom-bang" class="btn">+ Add</span>
@@ -33,13 +43,21 @@ function renderCustomBangsUI(app: HTMLDivElement) {
               <!-- Table rows will be inserted here -->
             </tbody>
           </table>
-          <div id="status-message" class="status-message"></div>
-          <button id="save-custom-bangs" class="btn">Save</button>
         </div>
+        <div id="status-message" class="status-message"></div>
       </div>
     </main>
     ${Footer()}
   `;
+
+  const defaultBangInput =
+    app.querySelector<HTMLInputElement>("#default-bang")!;
+  defaultBangInput.addEventListener("change", (event) => {
+    const newDefaultBang = (event.target as HTMLInputElement).value;
+    saveDefaultBang(newDefaultBang);
+    defaultBang = newDefaultBang;
+    renderCustomBangsUI();
+  });
 
   const customBangUI =
     document.querySelector<HTMLDivElement>("#custom-bang-ui")!;
@@ -65,46 +83,42 @@ function renderCustomBangsUI(app: HTMLDivElement) {
     app.querySelector<HTMLSpanElement>("#add-custom-bang")!;
 
   addCustomBangButton.addEventListener("click", () => {
-    const newRow = customBangsTableBody.insertRow();
+    openModal(`
+      <div id="add-custom-bang-modal" class="custom-bang-modal">
+        <h3>Add Custom Bang</h3>
+        <div class="custom-bang-modal-field">
+          <label for="key" class="custom-bang-modal-label">Key</label>
+          <input type="text" id="key" name="key" class="url-input" placeholder="e.g. gh">
+        </div>
+        <div class="custom-bang-modal-field">
+          <label for="url" class="custom-bang-modal-label">URL</label>
+          <input type="text" id="url" name="url" class="url-input" placeholder="e.g. https://github.com/search?q=%s">
+        </div>
+        <div class="custom-bang-modal-actions">
+          <button id="modal-save" class="btn">Save</button>
+        </div>
+      </div>
+    `);
 
-    const keyCell = newRow.insertCell();
-    const keyInput = document.createElement("input");
-    keyInput.type = "text";
-    keyInput.name = "t";
-    keyInput.placeholder = "Unique key (e.g., x)";
-    keyInput.required = true;
-    keyCell.appendChild(keyInput);
-    keyInput.focus();
+    const modal = document.querySelector(".modal");
+    if (!modal) return;
 
-    const urlCell = newRow.insertCell();
-    urlCell.innerHTML =
-      '<input type="url" name="u" placeholder="Search URL, use {{{s}}} for query" required />' +
-      '<button id="delete-custom-bang-button" class="icon-button"><img src="/trash.svg" alt="Delete" /></button>';
+    const modalSaveButton =
+      modal.querySelector<HTMLButtonElement>("#modal-save")!;
+    if (!modalSaveButton) return;
 
-    const deleteButton = newRow.querySelector<HTMLButtonElement>(
-      "#delete-custom-bang-button"
-    )!;
-    deleteButton.addEventListener("click", () => {
-      newRow.remove();
+    modalSaveButton.addEventListener("click", () => {
+      const keyInput = modal.querySelector<HTMLInputElement>("#key")!;
+      const urlInput = modal.querySelector<HTMLInputElement>("#url")!;
+      const key = keyInput.value;
+      const url = urlInput.value;
+
+      if (key && url) {
+        console.log(saveCustomBangs([...getCustomBangs(), { key, url }]));
+        renderCustomBangsUI();
+        modal.remove();
+      }
     });
-
-    toggleTableVisibility();
-  });
-
-  saveCustomBangsButton.addEventListener("click", () => {
-    statusMessage.classList.add("hidden");
-    const result = saveCustomBangs(customBangsTableBody);
-
-    statusMessage.classList.remove("hidden");
-    statusMessage.classList.toggle("validation-success", result.success);
-    statusMessage.textContent = result.message;
-
-    if (result.success) {
-      setTimeout(() => {
-        statusMessage.classList.add("hidden");
-        toggleTableVisibility();
-      }, 3000);
-    }
   });
 
   const customBangs = getCustomBangs();
@@ -112,12 +126,17 @@ function renderCustomBangsUI(app: HTMLDivElement) {
     const newRow = customBangsTableBody.insertRow();
 
     const keyCell = newRow.insertCell();
-    keyCell.innerHTML = `<input type="text" name="t" placeholder="Unique key (e.g., x)" required value="${customBang.key}" />`;
+    keyCell.innerHTML = `<span class="bang-key">!${customBang.key}</span>`;
 
-    const searchURLCell = newRow.insertCell();
-    searchURLCell.innerHTML =
-      `<input type="url" name="u" placeholder="Search URL, use {{{s}}} for query" required value="${customBang.url}" />` +
-      '<button id="delete-custom-bang-button" class="icon-button"><img src="/trash.svg" alt="Delete" /></button>';
+    const urlCell = newRow.insertCell();
+    urlCell.innerHTML = `
+      <div class="url-cell">
+        <span class="bang-url">${customBang.url}</span>
+        <button id="delete-custom-bang-button" class="icon-button">
+          <img src="/trash.svg" alt="Delete" />
+        </button>
+      </div>
+    `;
 
     // Mark this row as existing to prevent duplicate key validation on itself
     newRow.dataset.existing = "true";
@@ -126,6 +145,8 @@ function renderCustomBangsUI(app: HTMLDivElement) {
       "#delete-custom-bang-button"
     )!;
     deleteButton.addEventListener("click", () => {
+      const key = customBang.key;
+      deleteCustomBang(key);
       newRow.remove();
       toggleTableVisibility();
     });
@@ -133,3 +154,5 @@ function renderCustomBangsUI(app: HTMLDivElement) {
 
   toggleTableVisibility();
 }
+
+renderCustomBangsUI();

@@ -4,6 +4,7 @@ export type CustomBang = {
 };
 
 const LS_CUSTOM_BANG_KEY = "custom-bangs";
+const LS_DEFAULT_BANG_KEY = "default-bang";
 
 function isCustomBang(value: unknown): value is CustomBang {
   return (
@@ -46,26 +47,12 @@ export type SaveCustomBangsResult = {
 };
 
 export function saveCustomBangs(
-  tableBody: HTMLTableSectionElement
+  customBangs: CustomBang[]
 ): SaveCustomBangsResult {
   try {
-    const rows = tableBody.querySelectorAll("tr");
-    const customBangs: CustomBang[] = [];
     const seenKeys = new Set<string>();
 
-    for (const row of rows) {
-      const keyInput = row.querySelector("input[name='t']");
-      if (!(keyInput instanceof HTMLInputElement)) {
-        return {
-          success: false,
-          message: "Error parsing custom bangs: key input not found",
-        };
-      }
-      const key = keyInput.value.trim();
-      if (!key) {
-        return { success: false, message: "Key is required" };
-      }
-
+    for (const { key, url } of customBangs) {
       if (seenKeys.has(key)) {
         return {
           success: false,
@@ -73,18 +60,6 @@ export function saveCustomBangs(
         };
       }
       seenKeys.add(key);
-
-      const urlInput = row.querySelector("input[name='u']");
-      if (!(urlInput instanceof HTMLInputElement)) {
-        return {
-          success: false,
-          message: "Error parsing custom bangs: url input not found",
-        };
-      }
-      const url = urlInput.value.trim();
-      if (!url) {
-        return { success: false, message: "Search URL is required" };
-      }
 
       if (!url.includes("{{{s}}}")) {
         return {
@@ -99,8 +74,6 @@ export function saveCustomBangs(
           message: `Invalid search URL for key "${key}"`,
         };
       }
-
-      customBangs.push({ key, url });
     }
 
     localStorage.setItem(LS_CUSTOM_BANG_KEY, JSON.stringify(customBangs));
@@ -116,4 +89,21 @@ export function saveCustomBangs(
       message: `Error saving custom bangs: ${(error as Error).message}`,
     };
   }
+}
+
+export function deleteCustomBang(key: string): void {
+  const customBangs = getCustomBangs();
+
+  const updatedBangs = customBangs.filter((bang) => bang.key !== key);
+
+  localStorage.setItem(LS_CUSTOM_BANG_KEY, JSON.stringify(updatedBangs));
+}
+
+export function getDefaultBang(): string {
+  const storedValue = localStorage.getItem(LS_DEFAULT_BANG_KEY);
+  return storedValue || "g";
+}
+
+export function saveDefaultBang(defaultBang: string): void {
+  localStorage.setItem(LS_DEFAULT_BANG_KEY, defaultBang);
 }

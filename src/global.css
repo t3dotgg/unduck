@@ -8,6 +8,26 @@
   src: local("Arial");
 }
 
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 32rem;
+}
+
 :root {
   font-family:
     Inter,
@@ -50,6 +70,12 @@ body {
 
 main {
   width: 100%;
+  padding: 0 1rem;
+}
+
+main#settings {
+  max-width: 56rem;
+  margin: auto;
 }
 
 h1,
@@ -118,6 +144,12 @@ textarea {
   background: #f0f0f0;
 }
 
+.settings-link {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
 .copy-button:active {
   background: #e5e5e5;
 }
@@ -138,13 +170,6 @@ textarea {
   align-items: center;
   justify-content: center;
   height: 100vh;
-  position: relative;
-}
-
-.settings-link {
-  position: absolute;
-  top: 16px;
-  right: 16px;
 }
 
 /* Add footer styles */
@@ -182,16 +207,17 @@ textarea {
 .custom-bangs-table-container {
   width: 100%;
   overflow-x: auto;
-  max-width: 56rem;
   margin-left: auto;
   margin-right: auto;
   text-align: center;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-top: 1rem;
 }
 
 #custom-bangs-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 1rem;
   table-layout: fixed;
 }
 
@@ -199,7 +225,6 @@ textarea {
 #custom-bangs-table td {
   padding: 0.75rem;
   text-align: left;
-  border-bottom: 1px solid #ddd;
 }
 
 /* Column width adjustments */
@@ -208,9 +233,22 @@ textarea {
   width: 100px;
 }
 
-#custom-bangs-table th:nth-child(2),
-#custom-bangs-table td:nth-child(2) {
+#custom-bangs-table td:nth-child(2) .url-cell {
   position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+#custom-bangs-table td:nth-child(2) .url-cell .bang-url {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#custom-bangs-table td:nth-child(2) .url-cell .icon-button {
+  flex-shrink: 0;
 }
 
 #custom-bangs-table th {
@@ -223,38 +261,35 @@ textarea {
   border-bottom: 2px solid #ddd;
 }
 
+#custom-bangs-table tbody tr:not(:last-child) {
+  border-bottom: 1px solid #ddd;
+}
+
 #custom-bangs-table tbody tr:hover {
   background-color: #f9f9f9;
 }
 
+#custom-bangs-table #delete-custom-bang-button {
+  margin-right: 0.5rem;
+}
+
 /* Input fields styled as table cells */
-#custom-bangs-table input {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  box-sizing: border-box;
+#custom-bangs-table td {
+  padding: 0;
 }
 
-#custom-bangs-table td:nth-child(2) {
-  padding-right: 44px; /* Make room for delete button */
+#custom-bangs-table .bang-key,
+#custom-bangs-table .bang-url {
+  padding: 0.75rem;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-#custom-bangs-table td:nth-child(2) input {
-  padding-right: 8px; /* Normal padding */
-}
-
-#custom-bangs-table input:focus {
-  outline: none;
-  border-color: #aaa;
-}
-
-/* Style for delete button */
-#delete-custom-bang-button {
-  position: absolute;
-  right: 4px;
-  top: 50%;
-  transform: translateY(-50%);
+#custom-bangs-table .bang-key {
+  font-weight: 600;
+  position: relative;
 }
 
 /* Custom bangs table styles */
@@ -262,7 +297,6 @@ textarea {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 56rem;
   width: 100%;
   margin: auto;
   margin-top: 2rem;
@@ -270,25 +304,6 @@ textarea {
 
 .custom-bangs-heading {
   margin: 0;
-}
-
-#add-custom-bang {
-  font-size: 0.9rem;
-  padding: 0.5rem 1rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  background-color: #fff;
-  color: #444;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-#add-custom-bang:hover {
-  background-color: #f0f0f0;
-}
-
-#add-custom-bang:active {
-  background-color: #e5e5e5;
 }
 
 .btn {
@@ -312,25 +327,6 @@ textarea {
   background-color: #e5e5e5;
 }
 
-
-.table-footer-cell {
-  border: none !important;
-  text-align: left;
-  cursor: pointer;
-  color: #666;
-  padding: 10px;
-  transition: all 0.2s;
-  border-radius: 4px;
-}
-
-.table-footer-cell:hover {
-  background: #f0f0f0;
-}
-
-.table-footer-cell-empty {
-  border: none !important;
-}
-
 /* Status message styles */
 .status-message {
   color: red;
@@ -346,5 +342,34 @@ textarea {
 }
 
 .border-none {
+  border: none;
+}
+
+.custom-bang-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.custom-bang-modal-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.custom-bang-modal-label {
+  font-weight: 500;
+}
+
+.custom-bang-modal-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+.btn-primary {
+  background: #28a745;
+  color: white;
   border: none;
 }
