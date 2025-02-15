@@ -147,3 +147,176 @@ textarea {
 .footer a:hover {
   color: #333;
 }
+
+/* Custom Bangs Table Styles */
+.custom-bangs-table-container {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 2rem;
+  max-width: 56rem;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+#custom-bangs-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  table-layout: fixed;
+}
+
+#custom-bangs-table th,
+#custom-bangs-table td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Column width adjustments */
+#custom-bangs-table th:first-child,
+#custom-bangs-table td:first-child {
+  width: 100px;
+}
+
+#custom-bangs-table th:nth-child(2),
+#custom-bangs-table td:nth-child(2) {
+  position: relative;
+}
+
+#custom-bangs-table th {
+  background-color: #f5f5f5;
+  font-weight: 600;
+  padding: 0.5rem;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.05rem;
+  border-bottom: 2px solid #ddd;
+}
+
+#custom-bangs-table tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+/* Input fields styled as table cells */
+#custom-bangs-table input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+#custom-bangs-table td:nth-child(2) {
+  padding-right: 44px; /* Make room for delete button */
+}
+
+#custom-bangs-table td:nth-child(2) input {
+  padding-right: 8px; /* Normal padding */
+}
+
+#custom-bangs-table input:focus {
+  outline: none;
+  border-color: #aaa;
+}
+
+/* Style for delete button */
+.delete-row {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 8px;
+  color: #666;
+  border-radius: 4px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-row:hover {
+  background: #f0f0f0;
+}
+
+.delete-row:active {
+  background: #e5e5e5;
+}
+
+.delete-row img {
+  width: 20px;
+  height: 20px;
+}
+
+/* Style for Save button */
+#save-custom-bangs {
+  padding: 0.5rem 1rem;
+  margin-top: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #fff;
+  color: #444;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+#save-custom-bangs:hover {
+  background-color: #f0f0f0;
+}
+
+#save-custom-bangs:active {
+  background-color: #e5e5e5;
+}
+
+/* Style for Add button */
+#add-custom-bang {
+  border: none;
+  color: inherit;
+  background: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+/* Root container layout */
+.root-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+/* Custom bangs table styles */
+.custom-bangs-heading {
+  text-align: center;
+}
+
+.table-footer-cell {
+  border: none !important;
+  text-align: left;
+  cursor: pointer;
+  color: #666;
+  padding: 10px;
+  transition: all 0.2s;
+  border-radius: 4px;
+}
+
+.table-footer-cell:hover {
+  background: #f0f0f0;
+}
+
+.table-footer-cell-empty {
+  border: none !important;
+}
+
+/* Status message styles */
+.status-message {
+  color: red;
+  margin-bottom: 10px;
+  display: none;
+}
+
+.validation-success {
+  color: green !important;
+}
