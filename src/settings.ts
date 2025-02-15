@@ -21,13 +21,14 @@ function renderCustomBangsUI() {
       </a>
     </header>
     <main id="settings">
+      <h2 id="settings-heading">Settings</h2>
       <div>
-        <h3>Default Bang</h3>
-        <input type="text" id="default-bang" name="default-bang" class="url-input" placeholder="e.g. g" value="${defaultBang}" />
+        <h3 id="default-bang-heading">Default bang</h3>
+        <input type="text" id="default-bang" name="default-bang" class="input" placeholder="e.g. g" value="${defaultBang}" />
       </div>
 
       <div class="custom-bangs-header">
-        <h3 class="custom-bangs-heading">Custom Bangs</h3>
+        <h3 class="custom-bangs-heading">Custom bangs</h3>
         <span id="add-custom-bang" class="btn">+ Add</span>
       </div>
       <div id="custom-bang-ui">
