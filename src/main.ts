@@ -19,6 +19,16 @@ function noSearchDefaultPageRender() {
             <img src="/clipboard.svg" alt="Copy" />
           </button>
         </div>
+        <p id="customize-link-container">
+          <a href="#" id="customize-link">Want to customize the default bang?</a>
+        </p>
+        <div id="customize-section" style="display: none;">
+          <input 
+            type="text" 
+            id="default-bang-input" 
+            placeholder="!g (default)" 
+          />
+        </div>
       </div>
       <footer class="footer">
         <a href="https://t3.chat" target="_blank">t3.chat</a>
@@ -33,6 +43,26 @@ function noSearchDefaultPageRender() {
   const copyButton = app.querySelector<HTMLButtonElement>(".copy-button")!;
   const copyIcon = copyButton.querySelector("img")!;
   const urlInput = app.querySelector<HTMLInputElement>(".url-input")!;
+  const customizeLink = document.getElementById("customize-link")!;
+  const customizeSection = document.getElementById("customize-section")!;
+  const defaultBangInput = document.getElementById("default-bang-input") as HTMLInputElement;
+  const customizeLinkContainer = document.getElementById("customize-link-container")!;
+  const originalUrl = urlInput.value;
+
+  customizeLink.addEventListener("click", (e) => {
+    e.preventDefault();
+    customizeSection.style.display = "block";
+    customizeLinkContainer.style.display = "none";
+  });
+
+  defaultBangInput.addEventListener("input", () => {
+    const defaultBang = defaultBangInput.value.trim();
+    if (defaultBang === "") {
+      urlInput.value = originalUrl;
+    } else {
+      urlInput.value = `https://unduck.link?q=%s&default=${defaultBang}`;
+    }
+  });
 
   copyButton.addEventListener("click", async () => {
     await navigator.clipboard.writeText(urlInput.value);
@@ -43,8 +73,6 @@ function noSearchDefaultPageRender() {
     }, 2000);
   });
 }
-
-
 
 function getBangredirectUrl() {
   const url = new URL(window.location.href);
