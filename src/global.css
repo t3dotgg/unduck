@@ -152,7 +152,6 @@ textarea {
 .custom-bangs-table-container {
   width: 100%;
   overflow-x: auto;
-  margin-top: 2rem;
   max-width: 56rem;
   margin-left: auto;
   margin-right: auto;
@@ -288,8 +287,36 @@ textarea {
 }
 
 /* Custom bangs table styles */
+.custom-bangs-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 56rem;
+  width: 100%;
+  margin-top: 2rem;
+}
+
 .custom-bangs-heading {
-  text-align: center;
+  margin: 0;
+}
+
+#add-custom-bang {
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #fff;
+  color: #444;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+#add-custom-bang:hover {
+  background-color: #f0f0f0;
+}
+
+#add-custom-bang:active {
+  background-color: #e5e5e5;
 }
 
 .table-footer-cell {
@@ -314,9 +341,12 @@ textarea {
 .status-message {
   color: red;
   margin-bottom: 10px;
-  display: none;
 }
 
 .validation-success {
   color: green !important;
+}
+
+.hidden {
+  display: none;
 }

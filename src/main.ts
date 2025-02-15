@@ -141,32 +141,11 @@ function noSearchDefaultPageRender() {
           </button>
         </div>
       </div>
-      <div id="custom-bang-ui">
-        <div class="custom-bangs-table-container">
-          <h3 class="custom-bangs-heading">Custom Bangs</h3>
-          <table id="custom-bangs-table">
-            <thead>
-              <tr>
-                <th>Key</th>
-                <th>URL</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- Table rows will be inserted here -->
-            </tbody>
-            <tfoot>
-              <tr>
-                <td class="table-footer-cell">
-                  <span id="add-custom-bang">+ Add</span>
-                </td>
-                <td class="table-footer-cell-empty"></td>
-              </tr>
-            </tfoot>
-          </table>
-          <div id="status-message" class="status-message"></div>
-          <button id="save-custom-bangs">Save</button>
-        </div>
+      <div class="custom-bangs-header">
+        <h3 class="custom-bangs-heading">Custom Bangs</h3>
+        <span id="add-custom-bang">+ Add</span>
       </div>
+      <div id="custom-bang-ui"></div>
       <footer class="footer">
         <a href="https://t3.chat" target="_blank">t3.chat</a>
         •
@@ -180,7 +159,6 @@ function noSearchDefaultPageRender() {
   const copyButton = app.querySelector<HTMLButtonElement>(".copy-button")!;
   const copyIcon = copyButton.querySelector("img")!;
   const urlInput = app.querySelector<HTMLInputElement>(".url-input")!;
-  const statusMessage = app.querySelector<HTMLDivElement>("#status-message")!;
 
   copyButton.addEventListener("click", async () => {
     await navigator.clipboard.writeText(urlInput.value);
@@ -191,18 +169,61 @@ function noSearchDefaultPageRender() {
     }, 2000);
   });
 
+  renderCustomBangsUI(app);
+}
+
+function renderCustomBangsUI(app: HTMLDivElement) {
+  const customBangUI = app.querySelector<HTMLDivElement>("#custom-bang-ui")!;
+  customBangUI.innerHTML = `
+    <div class="custom-bangs-table-container">
+      <table id="custom-bangs-table">
+        <thead>
+          <tr>
+            <th>Key</th>
+            <th>URL</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Table rows will be inserted here -->
+        </tbody>
+      </table>
+      <div id="status-message" class="status-message"></div>
+      <button id="save-custom-bangs">Save</button>
+    </div>
+  `;
+
+  const statusMessage =
+    customBangUI.querySelector<HTMLDivElement>("#status-message")!;
+  const customBangsTableBody =
+    customBangUI.querySelector<HTMLTableSectionElement>(
+      "#custom-bangs-table tbody"
+    )!;
+  const saveCustomBangsButton =
+    customBangUI.querySelector<HTMLButtonElement>("#save-custom-bangs")!;
+
+  function toggleTableVisibility() {
+    const table = customBangUI.querySelector(".custom-bangs-table-container");
+    if (customBangsTableBody.rows.length === 0) {
+      table?.classList.add("hidden");
+    } else {
+      table?.classList.remove("hidden");
+    }
+  }
+
   const addCustomBangButton =
     app.querySelector<HTMLSpanElement>("#add-custom-bang")!;
-  const customBangsTableBody = app.querySelector<HTMLTableSectionElement>(
-    "#custom-bangs-table tbody"
-  )!;
 
   addCustomBangButton.addEventListener("click", () => {
     const newRow = customBangsTableBody.insertRow();
 
     const keyCell = newRow.insertCell();
-    keyCell.innerHTML =
-      '<input type="text" name="t" placeholder="Unique key (e.g., x)" required />';
+    const keyInput = document.createElement("input");
+    keyInput.type = "text";
+    keyInput.name = "t";
+    keyInput.placeholder = "Unique key (e.g., x)";
+    keyInput.required = true;
+    keyCell.appendChild(keyInput);
+    keyInput.focus();
 
     const urlCell = newRow.insertCell();
     urlCell.innerHTML =
@@ -214,22 +235,22 @@ function noSearchDefaultPageRender() {
     deleteButton.addEventListener("click", () => {
       newRow.remove();
     });
+
+    toggleTableVisibility();
   });
 
-  const saveCustomBangsButton =
-    app.querySelector<HTMLButtonElement>("#save-custom-bangs")!;
-
   saveCustomBangsButton.addEventListener("click", () => {
-    statusMessage.style.display = "none";
+    statusMessage.classList.add("hidden");
     const result = saveCustomBangs(customBangsTableBody);
 
-    statusMessage.style.display = "block";
+    statusMessage.classList.remove("hidden");
     statusMessage.classList.toggle("validation-success", result.success);
     statusMessage.textContent = result.message;
 
     if (result.success) {
       setTimeout(() => {
-        statusMessage.style.display = "none";
+        statusMessage.classList.add("hidden");
+        toggleTableVisibility();
       }, 3000);
     }
   });
@@ -253,8 +274,11 @@ function noSearchDefaultPageRender() {
       newRow.querySelector<HTMLButtonElement>(".delete-row")!;
     deleteButton.addEventListener("click", () => {
       newRow.remove();
+      toggleTableVisibility();
     });
   }
+
+  toggleTableVisibility();
 }
 
 const LS_DEFAULT_BANG = localStorage.getItem("default-bang") ?? "g";
