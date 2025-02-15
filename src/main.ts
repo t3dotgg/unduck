@@ -1,5 +1,4 @@
 import { bangs } from "./bang";
-import { renderBangPage } from "./bangsPage";
 import "./global.css";
 
 function noSearchDefaultPageRender() {
@@ -78,13 +77,6 @@ function getBangredirectUrl() {
 }
 
 function doRedirect() {
-  const currentPath = window.location.pathname;
-
-  if (currentPath === "/bang") {
-    renderBangPage();
-    return;
-  }
-
   const searchUrl = getBangredirectUrl();
   if (!searchUrl) return;
   window.location.replace(searchUrl);
