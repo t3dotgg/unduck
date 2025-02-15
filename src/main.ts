@@ -45,7 +45,6 @@ function noSearchDefaultPageRender() {
 }
 
 const LS_DEFAULT_BANG = localStorage.getItem("default-bang") ?? "g";
-const defaultBang = bangs.find((b) => b.t === LS_DEFAULT_BANG);
 
 function getBangredirectUrl() {
   const url = new URL(window.location.href);
@@ -58,7 +57,7 @@ function getBangredirectUrl() {
   const match = query.match(/!([a-z0-9]+)/i);
 
   const bangCandidate = match?.[1]?.toLowerCase();
-  const selectedBang = bangs.find((b) => b.t === bangCandidate) ?? defaultBang;
+  const selectedBang = bangs[bangCandidate ?? LS_DEFAULT_BANG];
 
   // Remove the first bang from the query
   const cleanQuery = query.replace(/![a-z0-9]+\s*/i, "").trim();
