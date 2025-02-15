@@ -18,13 +18,15 @@ function noSearchDefaultPageRender() {
           <button class="copy-button">
             <img src="/clipboard.svg" alt="Copy" />
           </button>
+          <br>
           <p id="customize-link-container">
             <a href="#" id="customize-link">Want to customize the default bang?</a>
           </p>
           <div id="customize-section" style="display: none;">
             <input 
               type="text" 
-              id="default-bang-input" 
+              id="default-bang-input"
+              class="url-input"
               placeholder="!g (default)" 
             />
           </div>
