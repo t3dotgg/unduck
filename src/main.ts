@@ -1,4 +1,5 @@
 import { bangs } from "./bang";
+import { renderBangPage } from "./bangsPage";
 import "./global.css";
 
 function noSearchDefaultPageRender() {
@@ -44,12 +45,13 @@ function noSearchDefaultPageRender() {
   });
 }
 
-const LS_DEFAULT_BANG = localStorage.getItem("default-bang") ?? "g";
-const defaultBang = bangs.find((b) => b.t === LS_DEFAULT_BANG);
+
 
 function getBangredirectUrl() {
   const url = new URL(window.location.href);
   const query = url.searchParams.get("q")?.trim() ?? "";
+  const urlDefault = url.searchParams.get("default")?.trim() ?? localStorage.getItem("default-bang") ?? "g";
+  const defaultBang = bangs.find((b) => b.t === urlDefault);
   if (!query) {
     noSearchDefaultPageRender();
     return null;
@@ -76,6 +78,13 @@ function getBangredirectUrl() {
 }
 
 function doRedirect() {
+  const currentPath = window.location.pathname;
+
+  if (currentPath === "/bang") {
+    renderBangPage();
+    return;
+  }
+
   const searchUrl = getBangredirectUrl();
   if (!searchUrl) return;
   window.location.replace(searchUrl);
