@@ -48,6 +48,10 @@ body {
   color: #1a1a1a;
 }
 
+main {
+  width: 100%;
+}
+
 h1,
 h2,
 h3,
@@ -100,7 +104,7 @@ textarea {
   background: #f5f5f5;
 }
 
-.copy-button {
+.icon-button {
   padding: 8px;
   color: #666;
   border-radius: 4px;
@@ -110,7 +114,7 @@ textarea {
   justify-content: center;
 }
 
-.copy-button:hover {
+.icon-button:hover {
   background: #f0f0f0;
 }
 
@@ -125,6 +129,22 @@ textarea {
 
 .copy-button.copied {
   background: #28a745;
+}
+
+/* Root container layout */
+.root-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  position: relative;
+}
+
+.settings-link {
+  position: absolute;
+  top: 16px;
+  right: 16px;
 }
 
 /* Add footer styles */
@@ -146,6 +166,16 @@ textarea {
 
 .footer a:hover {
   color: #333;
+}
+
+.site-header {
+  padding: 1rem;
+}
+
+.site-header a {
+  color: inherit;
+  text-decoration: none;
+  font-weight: 500;
 }
 
 /* Custom Bangs Table Styles */
@@ -186,7 +216,7 @@ textarea {
 #custom-bangs-table th {
   background-color: #f5f5f5;
   font-weight: 600;
-  padding: 0.5rem;
+  padding: 0.75rem;
   text-transform: uppercase;
   font-size: 0.8rem;
   letter-spacing: 0.05rem;
@@ -220,70 +250,11 @@ textarea {
 }
 
 /* Style for delete button */
-.delete-row {
+#delete-custom-bang-button {
   position: absolute;
   right: 4px;
   top: 50%;
   transform: translateY(-50%);
-  padding: 8px;
-  color: #666;
-  border-radius: 4px;
-  transition: all 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.delete-row:hover {
-  background: #f0f0f0;
-}
-
-.delete-row:active {
-  background: #e5e5e5;
-}
-
-.delete-row img {
-  width: 20px;
-  height: 20px;
-}
-
-/* Style for Save button */
-#save-custom-bangs {
-  padding: 0.5rem 1rem;
-  margin-top: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  background-color: #fff;
-  color: #444;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-#save-custom-bangs:hover {
-  background-color: #f0f0f0;
-}
-
-#save-custom-bangs:active {
-  background-color: #e5e5e5;
-}
-
-/* Style for Add button */
-#add-custom-bang {
-  border: none;
-  color: inherit;
-  background: none;
-  padding: 0;
-  margin: 0;
-  cursor: pointer;
-}
-
-/* Root container layout */
-.root-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
 }
 
 /* Custom bangs table styles */
@@ -293,6 +264,7 @@ textarea {
   align-items: center;
   max-width: 56rem;
   width: 100%;
+  margin: auto;
   margin-top: 2rem;
 }
 
@@ -319,6 +291,28 @@ textarea {
   background-color: #e5e5e5;
 }
 
+.btn {
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #fff;
+  color: #444;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+}
+
+.btn:hover {
+  background-color: #f0f0f0;
+}
+
+.btn:active {
+  background-color: #e5e5e5;
+}
+
+
 .table-footer-cell {
   border: none !important;
   text-align: left;
@@ -344,9 +338,13 @@ textarea {
 }
 
 .validation-success {
-  color: green !important;
+  color: #28a745;
 }
 
 .hidden {
   display: none;
+}
+
+.border-none {
+  border: none;
 }
