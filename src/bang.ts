@@ -11,7 +11,9 @@ type Bang = {
   u: string;
 };
 
-console.log("this ran, but not on client")
+if (typeof window !== "undefined") {
+    throw new Error("Attempted to re-map bangs on client side instead of at build time");
+}
 
 export const bangs: Record<string, Bang> = {
   t3: {
