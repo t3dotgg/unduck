@@ -72,7 +72,8 @@ function getBangredirectUrl() {
   );
   if (!searchUrl) return null;
 
-  return searchUrl;
+  // For relative URLs like /bangs?q={{{s}}}
+  return new URL(searchUrl, "https://duckduckgo.com");
 }
 
 function doRedirect() {
