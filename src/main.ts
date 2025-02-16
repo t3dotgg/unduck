@@ -1,9 +1,10 @@
-import { bangs } from "./bang";
+import { bangs } from "./bang" with { type: "macro" };
 import "./global.css";
 
 function noSearchDefaultPageRender() {
   const app = document.querySelector<HTMLDivElement>("#app")!;
   app.innerHTML = `
+    ${Object.keys(bangs).length}
     <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh;">
       <div class="content-container">
         <h1>Unduck</h1>
@@ -45,7 +46,6 @@ function noSearchDefaultPageRender() {
 }
 
 const LS_DEFAULT_BANG = localStorage.getItem("default-bang") ?? "g";
-const defaultBang = bangs.find((b) => b.t === LS_DEFAULT_BANG);
 
 function getBangredirectUrl() {
   const url = new URL(window.location.href);
@@ -58,7 +58,7 @@ function getBangredirectUrl() {
   const match = query.match(/!(\S+)/i);
 
   const bangCandidate = match?.[1]?.toLowerCase();
-  const selectedBang = bangs.find((b) => b.t === bangCandidate) ?? defaultBang;
+  const selectedBang = bangs[bangCandidate ?? LS_DEFAULT_BANG];
 
   // Remove the first bang from the query
   const cleanQuery = query.replace(/!\S+\s*/i, "").trim();
