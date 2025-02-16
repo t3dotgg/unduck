@@ -19,15 +19,14 @@ function noSearchDefaultPageRender() {
             <img src="/clipboard.svg" alt="Copy" />
           </button>
           <br>
-          <p id="customize-link-container">
-            <a href="#" id="customize-link">Want to customize the default bang?</a>
+          <p class="customize-link-container">
+            <a href="#" class="customize-link">Want to customize the default bang?</a>
           </p>
-          <div id="customize-section" style="display: none;">
+          <div class="customize-section" style="display: none;">
             <input 
               type="text" 
-              id="default-bang-input"
-              class="url-input"
-              placeholder="!g (default)" 
+              class="default-bang-input"
+              placeholder="g (default)" 
             />
           </div>
         </div>
@@ -45,10 +44,10 @@ function noSearchDefaultPageRender() {
   const copyButton = app.querySelector<HTMLButtonElement>(".copy-button")!;
   const copyIcon = copyButton.querySelector("img")!;
   const urlInput = app.querySelector<HTMLInputElement>(".url-input")!;
-  const customizeLink = document.getElementById("customize-link")!;
-  const customizeSection = document.getElementById("customize-section")!;
-  const defaultBangInput = document.getElementById("default-bang-input") as HTMLInputElement;
-  const customizeLinkContainer = document.getElementById("customize-link-container")!;
+  const customizeLink = app.querySelector<HTMLLinkElement>(".customize-link")!;
+  const customizeSection = app.querySelector<HTMLDivElement>(".customize-section")!;
+  const defaultBangInput = customizeSection.querySelector<HTMLInputElement>(".default-bang-input")!;
+  const customizeLinkContainer = app.querySelector<HTMLParagraphElement>(".customize-link-container")!;
   const originalUrl = urlInput.value;
 
   customizeLink.addEventListener("click", (e) => {
