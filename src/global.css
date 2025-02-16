@@ -8,6 +8,26 @@
   src: local("Arial");
 }
 
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 32rem;
+}
+
 :root {
   font-family:
     Inter,
@@ -46,6 +66,16 @@ body {
   font-weight: 400;
   font-size: 16px;
   color: #1a1a1a;
+}
+
+main {
+  width: 100%;
+  padding: 0 2rem;
+}
+
+main#settings {
+  max-width: 56rem;
+  margin: auto;
 }
 
 h1,
@@ -101,7 +131,15 @@ textarea {
   background: #f5f5f5;
 }
 
-.copy-button {
+.input {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 100%;
+  background: #fff;
+}
+
+.icon-button {
   padding: 8px;
   color: #666;
   border-radius: 4px;
@@ -111,8 +149,14 @@ textarea {
   justify-content: center;
 }
 
-.copy-button:hover {
+.icon-button:hover {
   background: #f0f0f0;
+}
+
+.settings-link {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
 }
 
 .copy-button:active {
@@ -126,6 +170,15 @@ textarea {
 
 .copy-button.copied {
   background: #28a745;
+}
+
+/* Root container layout */
+.root-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
 }
 
 /* Add footer styles */
@@ -147,4 +200,193 @@ textarea {
 
 .footer a:hover {
   color: #333;
+}
+
+.site-header {
+  padding: 1rem;
+}
+
+.site-header a {
+  color: inherit;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+/* Custom Bangs Table Styles */
+.custom-bangs-table-container {
+  width: 100%;
+  overflow-x: auto;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+#custom-bangs-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+#custom-bangs-table th,
+#custom-bangs-table td {
+  padding: 0.75rem;
+  text-align: left;
+}
+
+/* Column width adjustments */
+#custom-bangs-table th:first-child,
+#custom-bangs-table td:first-child {
+  width: 100px;
+}
+
+#custom-bangs-table td:nth-child(2) .url-cell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+#custom-bangs-table td:nth-child(2) .url-cell .bang-url {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#custom-bangs-table td:nth-child(2) .url-cell .icon-button {
+  flex-shrink: 0;
+}
+
+#custom-bangs-table th {
+  background-color: #f5f5f5;
+  font-weight: 600;
+  padding: 0.75rem;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.05rem;
+  border-bottom: 2px solid #ddd;
+}
+
+#custom-bangs-table tbody tr:not(:last-child) {
+  border-bottom: 1px solid #ddd;
+}
+
+#custom-bangs-table tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+#custom-bangs-table #delete-custom-bang-button {
+  margin-right: 0.5rem;
+}
+
+/* Input fields styled as table cells */
+#custom-bangs-table td {
+  padding: 0;
+}
+
+#custom-bangs-table .bang-key,
+#custom-bangs-table .bang-url {
+  padding: 0.75rem;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#custom-bangs-table .bang-key {
+  font-weight: 600;
+  position: relative;
+}
+
+/* Custom bangs table styles */
+.custom-bangs-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin: auto;
+  margin-top: 2rem;
+}
+
+.custom-bangs-heading {
+  margin: 0;
+}
+
+.btn {
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #fff;
+  color: #444;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+}
+
+.btn:hover {
+  background-color: #f0f0f0;
+}
+
+.btn:active {
+  background-color: #e5e5e5;
+}
+
+/* Status message styles */
+.status-message {
+  color: red;
+  margin-bottom: 10px;
+}
+
+.validation-success {
+  color: #28a745;
+}
+
+.hidden {
+  display: none;
+}
+
+.border-none {
+  border: none;
+}
+
+.custom-bang-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.custom-bang-modal-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.custom-bang-modal-label {
+  font-weight: 500;
+}
+
+.custom-bang-modal-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+.btn-primary {
+  background: #28a745;
+  color: white;
+  border: none;
+}
+
+#default-bang-heading {
+  margin-bottom: 1rem;
+}
+
+#settings-heading {
+  margin-bottom: 2rem;
 }
