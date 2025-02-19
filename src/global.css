@@ -61,6 +61,7 @@ h6 {
 a {
   color: #444444;
 }
+
 a:hover {
   color: #888888;
 }
@@ -147,4 +148,49 @@ textarea {
 
 .footer a:hover {
   color: #333;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    color: #ddd;
+  }
+
+  #app {
+    background-color: #131313;
+  }
+
+  a {
+    color: #a9a9a9;
+  }
+
+  a:hover {
+    color: #888;
+  }
+
+  .footer,
+  .footer a {
+    color: #999;
+  }
+
+  .footer a:hover {
+    color: #ccc;
+  }
+
+  .url-input {
+    border-color: #3d3d3d;
+    background-color: #191919;
+    color: #fff;
+  }
+
+  .copy-button img {
+    filter: invert(1);
+  }
+
+  .copy-button:hover {
+    background: #222;
+  }
+
+  .copy-button:active {
+    background: #333;
+  }
 }
