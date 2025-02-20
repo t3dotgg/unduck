@@ -63,6 +63,14 @@ function getBangredirectUrl() {
   // Remove the first bang from the query
   const cleanQuery = query.replace(/!\S+\s*/i, "").trim();
 
+  // If the query is empty, use "d" instead
+  if (cleanQuery === "") {
+    const searchUrl = "https://" + selectedBang?.d;
+    console.log(searchUrl);
+    if (!searchUrl) return null;
+    return searchUrl;
+  }
+
   // Format of the url is:
   // https://www.google.com/search?q={{{s}}}
   const searchUrl = selectedBang?.u.replace(
