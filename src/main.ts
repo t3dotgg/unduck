@@ -1,18 +1,18 @@
-import { bangs } from "./bang";
-import "./global.css";
+import { bangs } from './bang';
+import './global.css';
 
 function noSearchDefaultPageRender() {
-  const app = document.querySelector<HTMLDivElement>("#app")!;
-  app.innerHTML = `
+    const app = document.querySelector<HTMLDivElement>('#app')!;
+    app.innerHTML = `
     <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh;">
       <div class="content-container">
-        <h1>Und*ck</h1>
+        <h1>Bang</h1>
         <p>DuckDuckGo's bang redirects are too slow. Add the following URL as a custom search engine to your browser. Enables <a href="https://duckduckgo.com/bang.html" target="_blank">all of DuckDuckGo's bangs.</a></p>
         <div class="url-container"> 
           <input 
             type="text" 
             class="url-input"
-            value="https://unduck.link?q=%s"
+            value="https://bang.zytact.in?q=%s"
             readonly 
           />
           <button class="copy-button">
@@ -21,64 +21,67 @@ function noSearchDefaultPageRender() {
         </div>
       </div>
       <footer class="footer">
-        <a href="https://t3.chat" target="_blank">t3.chat</a>
+        <a href="https://zytact.in" target="_blank">my website</a>
         •
-        <a href="https://x.com/theo" target="_blank">theo</a>
+        <a href="https://x.com/zytact" target="_blank">x/twitter</a>
         •
-        <a href="https://github.com/t3dotgg/unduck" target="_blank">github</a>
+        <a href="https://github.com/zytact/bang" target="_blank">source</a>
+          <br />
+        <span>fork of </span><a href="https://unduck.link" target="_blank">unduck</a>
       </footer>
     </div>
   `;
 
-  const copyButton = app.querySelector<HTMLButtonElement>(".copy-button")!;
-  const copyIcon = copyButton.querySelector("img")!;
-  const urlInput = app.querySelector<HTMLInputElement>(".url-input")!;
+    const copyButton = app.querySelector<HTMLButtonElement>('.copy-button')!;
+    const copyIcon = copyButton.querySelector('img')!;
+    const urlInput = app.querySelector<HTMLInputElement>('.url-input')!;
 
-  copyButton.addEventListener("click", async () => {
-    await navigator.clipboard.writeText(urlInput.value);
-    copyIcon.src = "/clipboard-check.svg";
+    copyButton.addEventListener('click', async () => {
+        await navigator.clipboard.writeText(urlInput.value);
+        copyIcon.src = '/clipboard-check.svg';
 
-    setTimeout(() => {
-      copyIcon.src = "/clipboard.svg";
-    }, 2000);
-  });
+        setTimeout(() => {
+            copyIcon.src = '/clipboard.svg';
+        }, 2000);
+    });
 }
 
-const LS_DEFAULT_BANG = localStorage.getItem("default-bang") ?? "g";
+const LS_DEFAULT_BANG = localStorage.getItem('default-bang') ?? 'g';
 const defaultBang = bangs.find((b) => b.t === LS_DEFAULT_BANG);
 
 function getBangredirectUrl() {
-  const url = new URL(window.location.href);
-  const query = url.searchParams.get("q")?.trim() ?? "";
-  if (!query) {
-    noSearchDefaultPageRender();
-    return null;
-  }
+    const url = new URL(window.location.href);
+    const query = url.searchParams.get('q')?.trim() ?? '';
+    if (!query) {
+        noSearchDefaultPageRender();
+        return null;
+    }
 
-  const match = query.match(/!(\S+)/i);
+    const match = query.match(/!(\S+)/i);
 
-  const bangCandidate = match?.[1]?.toLowerCase();
-  const selectedBang = bangs.find((b) => b.t === bangCandidate) ?? defaultBang;
+    const bangCandidate = match?.[1]?.toLowerCase();
+    const selectedBang =
+        bangs.find((b) => b.t === bangCandidate) ?? defaultBang;
 
-  // Remove the first bang from the query
-  const cleanQuery = query.replace(/!\S+\s*/i, "").trim();
+    // Remove the first bang from the query
+    const cleanQuery = query.replace(/!\S+\s*/i, '').trim();
 
-  // Format of the url is:
-  // https://www.google.com/search?q={{{s}}}
-  const searchUrl = selectedBang?.u.replace(
-    "{{{s}}}",
-    // Replace %2F with / to fix formats like "!ghr+t3dotgg/unduck"
-    encodeURIComponent(cleanQuery).replace(/%2F/g, "/")
-  );
-  if (!searchUrl) return null;
+    // Format of the url is:
+    // https://www.google.com/search?q={{{s}}}
+    const searchUrl = selectedBang?.u.replace(
+        '{{{s}}}',
+        // Replace %2F with / to fix formats like "!ghr+t3dotgg/unduck"
+        encodeURIComponent(cleanQuery).replace(/%2F/g, '/')
+    );
+    if (!searchUrl) return null;
 
-  return searchUrl;
+    return searchUrl;
 }
 
 function doRedirect() {
-  const searchUrl = getBangredirectUrl();
-  if (!searchUrl) return;
-  window.location.replace(searchUrl);
+    const searchUrl = getBangredirectUrl();
+    if (!searchUrl) return;
+    window.location.replace(searchUrl);
 }
 
 doRedirect();
