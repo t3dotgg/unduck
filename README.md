@@ -13,4 +13,4 @@ DuckDuckGo does their redirects server side. Their DNS is...not always great. Re
 I solved this by doing all of the work client side. Once you've went to https://bang.zytact.in once, the JS is all cache'd and will never need to be downloaded again. Your device does the redirects, not me.
 
 ## Credits
-This is a fork of (Unduck)[https://unduck.link] created by [Theo Browne](https://t3.gg).
+This is a fork of [Unduck](https://unduck.link) created by [Theo Browne](https://t3.gg).
