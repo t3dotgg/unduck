@@ -27,7 +27,7 @@ function noSearchDefaultPageRender() {
         •
         <a href="https://github.com/zytact/bang" target="_blank">source</a>
           <br />
-        <span>fork of </span><a href="https://unduck.link" target="_blank">unduck</a>
+        <span>fork of </span><a href="https://unduck.link" target="_blank">unduck</a><span> by </span><a href="https://t3.gg/" target="_blank">theo</a>
       </footer>
     </div>
   `;
