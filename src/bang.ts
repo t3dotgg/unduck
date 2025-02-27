@@ -122068,7 +122068,7 @@ export const bangs = [
     r: 0,
     s: "ChatGPT",
     sc: "AI",
-    t: "chatgpt",
+    t: "cgpt",
     u: "https://chat.openai.com?q={{{s}}}",
   },
   {
@@ -122077,7 +122077,7 @@ export const bangs = [
     r: 0,
     s: "ChatGPT 4o",
     sc: "AI",
-    t: "chatgpt-4o",
+    t: "cgpt-4o",
     u: "https://chat.openai.com?model=4o&q={{{s}}}",
   },
   {
@@ -122086,7 +122086,7 @@ export const bangs = [
     r: 0,
     s: "ChatGPT o3-mini-high",
     sc: "AI",
-    t: "chatgpt-o3-mini-high",
+    t: "cgpt-o3-mini-high",
     u: "https://chat.openai.com?model=o3-mini-high&q={{{s}}}",
   },
   {
@@ -122095,7 +122095,7 @@ export const bangs = [
     r: 0,
     s: "ChatGPT o1",
     sc: "AI",
-    t: "chatgpt-o1",
+    t: "cgpt-o1",
     u: "https://chat.openai.com?model=o1&q={{{s}}}",
   },
 ];
