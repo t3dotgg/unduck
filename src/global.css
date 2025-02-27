@@ -148,3 +148,32 @@ textarea {
 .footer a:hover {
   color: #333;
 }
+
+.default-bang-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.default-bang-input {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.save-default-bang-button {
+  padding: 8px;
+  background: #28a745;
+  color: #fff;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.save-default-bang-button:hover {
+  background: #218838;
+}
+
+.save-default-bang-button:active {
+  background: #1e7e34;
+}

@@ -18,7 +18,21 @@ function noSearchDefaultPageRender() {
           <button class="copy-button">
             <img src="/clipboard.svg" alt="Copy" />
           </button>
-        </div>
+          </div>
+          <div class="default-bang-container">
+            <label for="default-bang">default bang:</label>
+            <select name="default-bang" id="default-bang" class="default-bang-input">
+              ${bangs
+                .map(
+                  (b) =>
+                    `<option value="${b.t}" ${
+                      b.t === LS_DEFAULT_BANG ? "selected" : ""
+                    }>${b.t}</option>`
+                )
+                .join("")}
+            </select>
+            <button class="save-default-bang-button">save</button>
+          </div>
       </div>
       <footer class="footer">
         <a href="https://t3.chat" target="_blank">t3.chat</a>
@@ -41,6 +55,18 @@ function noSearchDefaultPageRender() {
     setTimeout(() => {
       copyIcon.src = "/clipboard.svg";
     }, 2000);
+  });
+
+  const saveDefaultBangButton = app.querySelector<HTMLButtonElement>(
+    ".save-default-bang-button"
+  )!;
+  const defaultBangSelect =
+    app.querySelector<HTMLSelectElement>("#default-bang")!;
+
+  saveDefaultBangButton.addEventListener("click", () => {
+    const selectedValue = defaultBangSelect.value;
+    localStorage.setItem("default-bang", selectedValue);
+    alert(`Default bang set to: ${selectedValue}`);
   });
 }
 
