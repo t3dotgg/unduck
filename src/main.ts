@@ -23,11 +23,25 @@ function noSearchDefaultPageRender() {
             <a href="#" class="customize-link">Want to customize the default bang?</a>
           </p>
           <div class="customize-section" style="display: none;">
-            <input 
-              type="text" 
-              class="default-bang-input"
-              placeholder="g (default)" 
-            />
+            <div class="customize-row">
+              <label for="default-bang-input">Default bang:</label>
+              <input 
+                type="text" 
+                id="default-bang-input"
+                class="url-input default-bang-input"
+                placeholder="g (default)" 
+              />
+            </div>
+            <div class="customize-row">
+              <label for="bang-char-input">Bang character:</label>
+              <input 
+                type="text" 
+                id="bang-char-input"
+                class="url-input bang-char-input"
+                maxlength="1"
+                placeholder="! (default)" 
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -48,6 +62,7 @@ function noSearchDefaultPageRender() {
   const customizeSection = app.querySelector<HTMLDivElement>(".customize-section")!;
   const defaultBangInput = customizeSection.querySelector<HTMLInputElement>(".default-bang-input")!;
   const customizeLinkContainer = app.querySelector<HTMLParagraphElement>(".customize-link-container")!;
+  const bangCharInput = app.querySelector(".bang-char-input") as HTMLInputElement;
   const originalUrl = urlInput.value;
 
   customizeLink.addEventListener("click", (e) => {
@@ -56,14 +71,29 @@ function noSearchDefaultPageRender() {
     customizeLinkContainer.style.display = "none";
   });
 
-  defaultBangInput.addEventListener("input", () => {
+  const updateUrl = () => {
     const defaultBang = defaultBangInput.value.trim();
-    if (defaultBang === "") {
-      urlInput.value = originalUrl;
-    } else {
-      urlInput.value = `https://unduck.link?q=%s&default=${defaultBang}`;
+    const bangChar = bangCharInput.value.trim();
+    
+    let newUrl = originalUrl;
+    
+    if (defaultBang || bangChar) {
+      newUrl = "https://unducked.vercel.app/?q=%s";
+      
+      if (defaultBang) {
+        newUrl += `&default=${defaultBang}`;
+      }
+      
+      if (bangChar) {
+        newUrl += `&char=${encodeURIComponent(bangChar)}`;
+      }
     }
-  });
+    
+    urlInput.value = newUrl;
+  };
+
+  defaultBangInput.addEventListener("input", updateUrl);
+  bangCharInput.addEventListener("input", updateUrl);
 
   copyButton.addEventListener("click", async () => {
     await navigator.clipboard.writeText(urlInput.value);
@@ -85,13 +115,21 @@ function getBangredirectUrl() {
     return null;
   }
 
-  const match = query.match(/!([a-z0-9]+)/i);
+  // let user select a different character to use as a bang (i.e. mobile)
+  const bangChar = url.searchParams.get("char") ?? "!";
 
+  // Escape the bangChar for use in a RegExp pattern
+  const escapedBangChar = bangChar.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+  // Create the RegExp patterns with the custom bang character
+  const bangPattern = new RegExp(`${escapedBangChar}([a-z0-9]+)`, 'i');
+  const cleanPattern = new RegExp(`${escapedBangChar}[a-z0-9]+\\s*`, 'i');
+
+  const match = query.match(bangPattern);
   const bangCandidate = match?.[1]?.toLowerCase();
   const selectedBang = bangs.find((b) => b.t === bangCandidate) ?? defaultBang;
-
   // Remove the first bang from the query
-  const cleanQuery = query.replace(/![a-z0-9]+\s*/i, "").trim();
+  const cleanQuery = query.replace(cleanPattern, "").trim();
 
   // Format of the url is:
   // https://www.google.com/search?q={{{s}}}
