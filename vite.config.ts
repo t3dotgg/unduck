@@ -7,4 +7,7 @@ export default defineConfig({
       registerType: "autoUpdate",
     }),
   ],
+  build: {
+    outDir: 'build'
+  }
 });
