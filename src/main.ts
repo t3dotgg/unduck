@@ -45,7 +45,7 @@ function noSearchDefaultPageRender() {
 }
 
 const LS_DEFAULT_BANG = localStorage.getItem("default-bang") ?? "g";
-const defaultBang = bangs.find((b) => b.t === LS_DEFAULT_BANG);
+const globalDefaultBang = bangs.find((b) => b.t === LS_DEFAULT_BANG);
 
 function getBangredirectUrl() {
   const url = new URL(window.location.href);
@@ -53,6 +53,14 @@ function getBangredirectUrl() {
   if (!query) {
     noSearchDefaultPageRender();
     return null;
+  }
+  
+  const defaultBangQuery = url.searchParams.get("default")?.trim() ?? "";
+  let defaultBang;
+  if (!defaultBangQuery) {
+    defaultBang = globalDefaultBang;
+  } else {
+    defaultBang = bangs.find((b) => b.t === defaultBangQuery);
   }
 
   const match = query.match(/!(\S+)/i);
