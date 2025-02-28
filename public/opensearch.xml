@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
+<ShortName>Unduck</ShortName>
+<Description>A better default search engine (with bangs!)</Description>
+<InputEncoding>UTF-8</InputEncoding>
+<LongName>Und*ck Search</LongName>
+<Url type="text/html" method="get" template="https://unduck.link?q={searchTerms}"/>
