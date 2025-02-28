@@ -61208,6 +61208,15 @@ export const bangs = [
   },
   {
     c: "Online Services",
+    d: "leta.mullvad.net",
+    r: 0,
+    s: "Leta",
+    sc: "Search (Leta)",
+    t: "leta",
+    u: "https://leta.mullvad.net/?q={{{s}}}",
+  },
+  {
+    c: "Online Services",
     d: "letonika.lv",
     r: 0,
     s: "Letonika.lv",
