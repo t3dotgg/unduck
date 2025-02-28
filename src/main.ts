@@ -1,4 +1,4 @@
-import { bangs } from "./bang";
+import { bangs } from "./hashbang.ts";
 import "./global.css";
 
 function noSearchDefaultPageRender() {
@@ -45,7 +45,8 @@ function noSearchDefaultPageRender() {
 }
 
 const LS_DEFAULT_BANG = localStorage.getItem("default-bang") ?? "g";
-const defaultBang = bangs.find((b) => b.t === LS_DEFAULT_BANG);
+
+const defaultBang = bangs[LS_DEFAULT_BANG];
 
 function getBangredirectUrl() {
   const url = new URL(window.location.href);
@@ -57,8 +58,8 @@ function getBangredirectUrl() {
 
   const match = query.match(/!(\S+)/i);
 
-  const bangCandidate = match?.[1]?.toLowerCase();
-  const selectedBang = bangs.find((b) => b.t === bangCandidate) ?? defaultBang;
+  const bangCandidate:string = match?.[1]?.toLowerCase() ?? "";
+  const selectedBang = bangs[bangCandidate] ?? defaultBang;
 
   // Remove the first bang from the query
   const cleanQuery = query.replace(/!\S+\s*/i, "").trim();
