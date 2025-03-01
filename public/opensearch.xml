@@ -1,0 +1,7 @@
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
+  <ShortName>Und*ck</ShortName>
+  <Description>Search using DuckDuckGo bangs via Und*ck</Description>
+  <InputEncoding>UTF-8</InputEncoding>
+  <Image width="16" height="16" type="image/x-icon">https://unduck.link/search.svg</Image>
+  <Url type="text/html" method="get" template="https://unduck.link?q={searchTerms}"/>
+</OpenSearchDescription>head
