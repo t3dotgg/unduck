@@ -25094,6 +25094,15 @@ export const bangs = [
     u: "https://docs.docker.com/search/?q={{{s}}}",
   },
   {
+    c: "Tech",
+    d: "https://mcr.microsoft.com",
+    r: 0,
+    s: "Microsoft Artifact Registry",
+    sc: "Programming",
+    t: "msar",
+    u: "https://mcr.microsoft.com/en-us/catalog?search={{{s}}}"
+  },
+  {
     c: "Shopping",
     d: "www.dhgate.com",
     r: 0,
