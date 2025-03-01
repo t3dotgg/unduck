@@ -3,6 +3,34 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/search.svg" />
+    <script>
+      // Apply theme as early as possible to prevent flickering
+      (function() {
+        function getInitialTheme() {
+          const savedTheme = localStorage.getItem('theme');
+          if (savedTheme) {
+            return savedTheme;
+          }
+          
+          // Check for system preference
+          if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            return 'dark';
+          }
+          
+          return 'light';
+        }
+        
+        const theme = getInitialTheme();
+        document.documentElement.setAttribute('data-theme', theme);
+        
+        // Add inline style to prevent flash
+        if (theme === 'dark') {
+          document.write('<style>html { background-color: #121212; color: #ffffff; }</style>');
+        } else {
+          document.write('<style>html { background-color: #ffffff; color: #1a1a1a; }</style>');
+        }
+      })();
+    </script>
     <link
       rel="preconnect"
       href="https://fonts.googleapis.com"
@@ -36,7 +64,7 @@
       content="A better default search engine (with bangs!)"
     />
   </head>
-  <body style="background-color: transparent">
+  <body>
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
   </body>
