@@ -1,0 +1,8 @@
+services:
+  web-server:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    restart: 'unless-stopped'
+    ports:
+      - 80:80
