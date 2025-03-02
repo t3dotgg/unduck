@@ -6146,12 +6146,12 @@ export const bangs = [
   },
   {
     c: "Multimedia",
-    d: "itunes.apple.com",
+    d: "music.apple.com",
     r: 11,
     s: "Apple Music",
     sc: "Music",
     t: "applemusic",
-    u: "https://itunes.apple.com/search?term={{{s}}}&entity=musicTrack",
+    u: "https://music.apple.com/search?term={{{s}}}",
   },
   {
     c: "Research",
