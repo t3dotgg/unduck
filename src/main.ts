@@ -82,9 +82,11 @@ function noSearchDefaultPageRender() {
   copyButton.addEventListener("click", async () => {
     await navigator.clipboard.writeText(urlInput.value);
     copyIcon.src = "/clipboard-check.svg";
+    copyButton.classList.add("copied");
 
     setTimeout(() => {
       copyIcon.src = "/clipboard.svg";
+      copyButton.classList.remove("copied");
     }, 2000);
   });
 
