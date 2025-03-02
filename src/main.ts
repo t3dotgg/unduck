@@ -12,7 +12,7 @@ function noSearchDefaultPageRender() {
           <input 
             type="text" 
             class="url-input"
-            value="https://bang.zytact.in?q=%s"
+            value="https://bang.zytact.com?q=%s"
             readonly 
           />
           <button class="copy-button">
@@ -21,7 +21,7 @@ function noSearchDefaultPageRender() {
         </div>
       </div>
       <footer class="footer">
-        <a href="https://zytact.in" target="_blank">my website</a>
+        <a href="https://zytact.com" target="_blank">my website</a>
         •
         <a href="https://x.com/zytact" target="_blank">x/twitter</a>
         •
