@@ -1,9 +1,9 @@
-import { bangs } from "./bang";
+import { bangs, Bang, SubBang } from "./bang";
 import "./global.css";
 
 function noSearchDefaultPageRender() {
-  const app = document.querySelector<HTMLDivElement>("#app")!;
-  app.innerHTML = `
+	const app = document.querySelector<HTMLDivElement>("#app")!;
+	app.innerHTML = `
     <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh;">
       <div class="content-container">
         <h1>Und*ck</h1>
@@ -30,55 +30,117 @@ function noSearchDefaultPageRender() {
     </div>
   `;
 
-  const copyButton = app.querySelector<HTMLButtonElement>(".copy-button")!;
-  const copyIcon = copyButton.querySelector("img")!;
-  const urlInput = app.querySelector<HTMLInputElement>(".url-input")!;
+	const copyButton = app.querySelector<HTMLButtonElement>(".copy-button")!;
+	const copyIcon = copyButton.querySelector("img")!;
+	const urlInput = app.querySelector<HTMLInputElement>(".url-input")!;
 
-  copyButton.addEventListener("click", async () => {
-    await navigator.clipboard.writeText(urlInput.value);
-    copyIcon.src = "/clipboard-check.svg";
+	copyButton.addEventListener("click", async () => {
+		await navigator.clipboard.writeText(urlInput.value);
+		copyIcon.src = "/clipboard-check.svg";
 
-    setTimeout(() => {
-      copyIcon.src = "/clipboard.svg";
-    }, 2000);
-  });
+		setTimeout(() => {
+			copyIcon.src = "/clipboard.svg";
+		}, 2000);
+	});
 }
 
 const LS_DEFAULT_BANG = localStorage.getItem("default-bang") ?? "g";
 const defaultBang = bangs.find((b) => b.t === LS_DEFAULT_BANG);
 
+function getSubBangs(bang: Bang, query: string) {
+	let prevBang: SubBang | null = null;
+	const ret: { value: string; bang: SubBang }[] = [];
+	let subBangQuery: string[] = [];
+
+	for (const word in query.split(" ")) {
+		if (word.startsWith("!")) {
+			if (prevBang) {
+				ret.push({
+					value: prevBang.v ?? subBangQuery.join(" "),
+					bang: prevBang,
+				});
+			}
+
+			const curBang = bang.sb.find((b) => b.b === word);
+			if (!curBang) {
+				subBangQuery.push(word);
+				continue;
+			}
+
+			subBangQuery = [];
+			prevBang = curBang;
+		} else {
+			subBangQuery.push(word);
+		}
+	}
+
+	if (prevBang) {
+		ret.push({
+			value: prevBang.v ?? subBangQuery.join(" "),
+			bang: prevBang,
+		});
+	}
+
+	return ret;
+}
+
+function getBang(query: string): Bang {
+	const match = query.match(/!(\S+)/i);
+
+	const bangCandidate = match?.[1]?.toLowerCase();
+	const selectedBang =
+		bangs.find((b) => b.t === bangCandidate) ?? defaultBang;
+	return selectedBang as Bang;
+}
+
 function getBangredirectUrl() {
-  const url = new URL(window.location.href);
-  const query = url.searchParams.get("q")?.trim() ?? "";
-  if (!query) {
-    noSearchDefaultPageRender();
-    return null;
+	const url = new URL(window.location.href);
+	const query = url.searchParams.get("q")?.trim() ?? "";
+	if (!query) {
+		noSearchDefaultPageRender();
+		return null;
+	}
+	// Remove the first bang from the query
+	const cleanQuery = query.replace(/!\S+\s*/i, "").trim();
+
+	const selectedBang = getBang(query);
+	const subBangs = getSubBangs(selectedBang, query);
+
+	// Format of the url is:
+	// https://www.google.com/search?q={{{s}}}
+	let searchUrl = selectedBang.u.replace(
+		"{{{s}}}}",
+		encodeURIComponent(cleanQuery).replace(/%2F/g, "/")
+	);
+	const urlParams: URLSearchParams = new URLSearchParams();
+	subBangs.forEach(({ value, bang }) => {
+		if (bang.u) {
+			urlParams.set(bang.u, value);
+		} else {
+			searchUrl = searchUrl.replace(
+				`{{{${bang.k}}}}`,
+				encodeURIComponent(value).replace(/%2F/g, "/")
+			);
+		}
+	});
+
+  if (urlParams) {
+    if (searchUrl.includes("?")) {
+      searchUrl += `&${urlParams.toString()}`;
+    } else {
+      searchUrl += `?${urlParams.toString()}`;
+    }
   }
 
-  const match = query.match(/!(\S+)/i);
+	if (!searchUrl) return null;
 
-  const bangCandidate = match?.[1]?.toLowerCase();
-  const selectedBang = bangs.find((b) => b.t === bangCandidate) ?? defaultBang;
-
-  // Remove the first bang from the query
-  const cleanQuery = query.replace(/!\S+\s*/i, "").trim();
-
-  // Format of the url is:
-  // https://www.google.com/search?q={{{s}}}
-  const searchUrl = selectedBang?.u.replace(
-    "{{{s}}}",
-    // Replace %2F with / to fix formats like "!ghr+t3dotgg/unduck"
-    encodeURIComponent(cleanQuery).replace(/%2F/g, "/")
-  );
-  if (!searchUrl) return null;
-
-  return searchUrl;
+	return searchUrl;
 }
 
 function doRedirect() {
-  const searchUrl = getBangredirectUrl();
-  if (!searchUrl) return;
-  window.location.replace(searchUrl);
+	const searchUrl = getBangredirectUrl();
+	if (!searchUrl) return;
+	window.location.replace(searchUrl);
 }
 
 doRedirect();
