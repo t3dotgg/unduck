@@ -61,6 +61,7 @@ h6 {
 a {
   color: #444444;
 }
+
 a:hover {
   color: #888888;
 }
@@ -147,4 +148,48 @@ textarea {
 
 .footer a:hover {
   color: #333;
+}
+
+.bang-form {
+  margin-top: 32px;
+  text-align: left;
+}
+
+label {
+  width: 100%;
+  font-size: inherit;
+  color: inherit;
+  font-family: inherit;
+}
+
+.bang-container {
+  margin-top: 4px;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.bang-input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #f5f5f5;
+}
+
+input[type="submit"] {
+  font-family: inherit;
+  font-size: 0.8em;
+  aspect-ratio: 1;
+  border: none;
+  background: transparent;
+}
+
+.bang-error {
+  margin-top: 8px;
+  color: crimson;
+}
+
+.bang-error>a {
+  color: inherit;
 }
