@@ -1,14 +1,16 @@
-// This file was (mostly) ripped from https://duckduckgo.com/bang.js
+// Same file found at https://duckduckgo.com/bang.js just cleaned up.
+//added duck ai back as default ai bang
+
 
 export const bangs = [
   {
     c: "AI",
-    d: "www.t3.chat",
+    d: "duck.ai",
     r: 0,
-    s: "T3 Chat",
+    s: "removing theos ai to go back to free duckai",
     sc: "AI",
-    t: "t3",
-    u: "https://www.t3.chat/new?q={{{s}}}",
+    t: "ai",
+    u: "https://www.duckduckgo.com/?q={{{s}}}&ia=chat&bang=true",
   },
   {
     c: "Tech",

@@ -7,7 +7,7 @@ function noSearchDefaultPageRender() {
     <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh;">
       <div class="content-container">
         <h1>Und*ck</h1>
-        <p>DuckDuckGo's bang redirects are too slow. Add the following URL as a custom search engine to your browser. Enables <a href="https://duckduckgo.com/bang.html" target="_blank">all of DuckDuckGo's bangs.</a></p>
+        <p>DuckDuckGo...oose haha get it? Shut up i know theres any extra O.  Enables <a href="https://duckduckgo.com/bang.html" target="_blank">all of DuckDuckGo's bangs.</a></p>
         <div class="url-container"> 
           <input 
             type="text" 
@@ -21,11 +21,11 @@ function noSearchDefaultPageRender() {
         </div>
       </div>
       <footer class="footer">
-        <a href="https://t3.chat" target="_blank">t3.chat</a>
+        <a href="https://lingoleap.42web.io/" target="_blank">TinyBeanBytes</a>
         •
-        <a href="https://x.com/theo" target="_blank">theo</a>
+        <a href="https://www.linkedin.com/in/zacharyend" target="_blank">Me</a>
         •
-        <a href="https://github.com/t3dotgg/unduck" target="_blank">github</a>
+        <a href="https://github.com/TheMeanBeanMachine/oose" target="_blank">Me github</a>
       </footer>
     </div>
   `;

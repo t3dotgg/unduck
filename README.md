@@ -1,13 +1,20 @@
-# Unduck
+# Oose
 
-DuckDuckGo's bang redirects are too slow. Add the following URL as a custom search engine to your browser. Enables all of DuckDuckGo's bangs to work, but much faster.
+Faster Duck Duck go Bangs! in any broswer... maybe even in no browser at all!
 
-```
-https://unduck.link?q=%s
-```
 
-## How is it that much faster?
+## Why Fork?
 
-DuckDuckGo does their redirects server side. Their DNS is...not always great. Result is that it often takes ages.
+Am I better than theo? probably not but I want to try to do some cool stuff with this idea.
 
-I solved this by doing all of the work client side. Once you've went to https://unduck.link once, the JS is all cache'd and will never need to be downloaded again. Your device does the redirects, not me.
+I want make this a local file you store and then add an alias to my terminal so i can have bangs in my linux terminal... Also didnt want to use t3 ai i like having !ai route to duck.ai
+
+Benefits of this is YOU are in control of what the bangs are! make the local file your default browser and now you have truly local bangs that you can change and add to whenever you want!
+
+
+
+## Why Fast?
+
+DuckDuckGo Bangs are serverside this works client side!
+
+Oose, forked from Unduck, Stores DuckDuckGo's bang mapping file locally and uses your chosen dns to resolve not theirs. 
