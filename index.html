@@ -1,43 +1,105 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/search.svg" />
-    <link
-      rel="preconnect"
-      href="https://fonts.googleapis.com"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="preconnect"
-      href="https://fonts.gstatic.com"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="preload"
-      as="style"
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-      media="print"
-      onload="this.media='all'"
-    />
-    <script
-      defer
-      data-domain="unduck.link"
-      src="https://plausible.io/js/script.js"
-    ></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Unduck</title>
-    <meta
-      name="description"
-      content="A better default search engine (with bangs!)"
-    />
-  </head>
-  <body style="background-color: transparent">
-    <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <title>Simple Unduck</title>
+  <link rel="search" type="application/opensearchdescription+xml" title="Simple Unduck" href="opensearch.xml" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    .search-container {
+      display: flex;
+      gap: 8px;
+    }
+    .search-input {
+      padding: 8px;
+      font-size: 16px;
+    }
+    .search-button {
+      padding: 8px 16px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+<div class="search-container">
+  <input
+          id="searchInput"
+          class="search-input"
+          type="text"
+          placeholder="Type your query..."
+  />
+  <button id="searchBtn" class="search-button">Search</button>
+</div>
+<script type="module">
+  import { bangs } from '/src/bang.js';
+
+  const input = document.getElementById('searchInput');
+  const button = document.getElementById('searchBtn');
+
+  function handleSearch(query) {
+    if (query) {
+      const match = query.match(/!(\S+)/i);
+      const bangCandidate = match?.[1]?.toLowerCase();
+      const selectedBang = bangs.find((b) => b.t === bangCandidate);
+
+      if (selectedBang) {
+        const cleanQuery = query.replace(/!\S+\s*/i, '').trim();
+        const searchUrl = selectedBang.u.replace('{{{s}}}', encodeURIComponent(cleanQuery).replace(/%2F/g, '/'));
+        window.location.replace(searchUrl);
+      } else {
+        alert('Bang not found');
+      }
+    }
+  }
+
+  function getQueryFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('q') || '';
+  }
+
+  button.addEventListener('click', () => handleSearch(input.value.trim()));
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') handleSearch(input.value.trim());
+  });
+
+  // Handle search query from URL if present
+  const initialQuery = getQueryFromUrl();
+  if (initialQuery) {
+    input.value = initialQuery;
+    handleSearch(initialQuery);
+  }
+
+  // Dynamically set the template URL in the opensearch.xml file
+  const opensearchLink = document.querySelector('link[rel="search"]');
+  if (opensearchLink) {
+    const currentUrl = window.location.href;
+    const opensearchUrl = new URL(opensearchLink.href, currentUrl);
+    fetch(opensearchUrl)
+      .then(response => response.text())
+      .then(text => {
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(text, "application/xml");
+        const urlElement = xmlDoc.querySelector('Url[type="text/html"]');
+        if (urlElement) {
+          urlElement.setAttribute('template', `${currentUrl}?q={searchTerms}`);
+          const serializer = new XMLSerializer();
+          const updatedXml = serializer.serializeToString(xmlDoc);
+          const blob = new Blob([updatedXml], { type: 'application/xml' });
+          const blobUrl = URL.createObjectURL(blob);
+          opensearchLink.href = blobUrl;
+        }
+      });
+  }
+</script>
+</body>
 </html>
