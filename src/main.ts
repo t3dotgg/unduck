@@ -38,7 +38,7 @@ function noSearchDefaultPageRender() {
     await navigator.clipboard.writeText(urlInput.value);
     copyIcon.src = "/clipboard-check.svg";
 
-      setTimeout(() => {
+    setTimeout(() => {
       copyIcon.src = "/clipboard.svg";
     }, 2000);
   });
@@ -51,15 +51,14 @@ function getBangredirectUrl() {
   const url = new URL(window.location.href);
   const query = url.searchParams.get("q")?.trim() ?? "";
   if (!query) {
-      noSearchDefaultPageRender();
-      return null;
+    noSearchDefaultPageRender();
+    return null;
   }
 
   const match = query.match(/!(\S+)/i);
 
   const bangCandidate = match?.[1]?.toLowerCase();
-  const selectedBang =
-    bangs.find((b) => b.t === bangCandidate) ?? defaultBang;
+  const selectedBang = bangs.find((b) => b.t === bangCandidate) ?? defaultBang;
 
   if (query === selectedBang?.t) {
     return selectedBang?.d;
