@@ -4,21 +4,22 @@ export type SubBang = {
   b: string; // the bang
   k?: string; // the key in the bang url
   u?: string; // url query param
+  l: number; // the length of its query, -1 is until next ban
   v?: string; // value if its toggleable
   d?: string; // default value
 }
 
 
 export type Bang = {
-  c: string;
-  d: string;
-  r: number;
-  s: string;
-  sc: string;
-  t: string;
-  u: string;
-  sb: SubBang[];
-}
+	c: string;
+	d: string;
+	r: number;
+	s: string;
+	sc: string;
+	t: string;
+	u: string;
+	sb: SubBang[];
+};
 
 
 export const bangs: Bang[] = [
@@ -117547,8 +117548,21 @@ export const bangs: Bang[] = [
     s: "Google Translate",
     sc: "Google",
     t: "tr",
-    u: "http://translate.google.com/#auto/en/{{{s}}}",
-    sb: [],
+    u: "http://translate.google.com/{{{f}}}/{{{t}}}/{{{s}}}",
+    sb: [
+      {
+        b: "f", // the bang
+        k: "f",
+        l: 1, // the length of its query, -1 is until next ban
+        d: "#auto", // default value
+      },
+      {
+        b: "t",
+        k: "t",
+        l: 1,
+        d: "en",
+      }
+    ],
   },
   {
     c: "Entertainment",
