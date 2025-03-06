@@ -1,6 +1,9 @@
 import { bangs, Bang, SubBang } from "./bang";
 import "./global.css";
 
+function formatQuery(query: string) {
+	return encodeURIComponent(query).replace(/%2F/g, "/").replace("%23", "#");
+}
 
 function noSearchDefaultPageRender() {
 	const app = document.querySelector<HTMLDivElement>("#app")!;
@@ -112,6 +115,11 @@ function getBangs(query: string) {
 	}
 
 
+	mainBang.sb.filter((b) => b.d).forEach((b) => {
+		if (allBangs.find((bang) => bang.bang.b === b.b)) return;
+		allBangs.push({bang: b, value: b.d});
+	});
+
 	return { sub: allBangs, main: mainBang, query: mainBangQuery.join(" ") };
 }
 
@@ -143,7 +151,7 @@ function getBangredirectUrl() {
 	const urlParams: URLSearchParams = new URLSearchParams();
 	let searchUrl = selectedBang.u.replace(
 		"{{{s}}}",
-		encodeURIComponent(newQuery).replace(/%2F/g, "/")
+		formatQuery(newQuery)
 	);
 
 
@@ -155,7 +163,7 @@ function getBangredirectUrl() {
 
 		searchUrl = searchUrl.replace(
 			`{{{${bang.b}}}}`,
-			encodeURIComponent(value).replace(/%2F/g, "/")
+			formatQuery(value)
 		);
 	});
 

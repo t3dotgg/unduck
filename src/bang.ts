@@ -117548,17 +117548,17 @@ export const bangs: Bang[] = [
     s: "Google Translate",
     sc: "Google",
     t: "tr",
-    u: "http://translate.google.com/{{{f}}}/{{{t}}}/{{{s}}}",
+    u: "https://translate.google.com/?text={{{s}}}&op=translate",
     sb: [
       {
-        b: "f", // the bang
-        k: "f",
-        l: 1, // the length of its query, -1 is until next ban
-        d: "#auto", // default value
+        b: "f",
+        u: "sl",
+        l: 1,
+        d: "auto",
       },
       {
         b: "t",
-        k: "t",
+        u: "tl",
         l: 1,
         d: "en",
       }
