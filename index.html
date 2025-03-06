@@ -8,25 +8,41 @@
     body {
       margin: 0;
       padding: 0;
-      font-family: sans-serif;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       height: 100vh;
+      background: linear-gradient(to bottom, #ffcc99, #ff9966);
+      color: #fff;
     }
     .search-container {
       display: flex;
       gap: 8px;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 16px;
+      border-radius: 8px;
     }
     .search-input {
       padding: 8px;
       font-size: 16px;
+      border: 2px solid #fff;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.8);
+      color: #000;
     }
     .search-button {
       padding: 8px 16px;
       font-size: 16px;
       cursor: pointer;
+      border: 2px solid #fff;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.8);
+      color: #000;
+    }
+    .search-button:hover {
+      background: rgba(255, 255, 255, 1);
     }
   </style>
 </head>
@@ -40,8 +56,9 @@
   />
   <button id="searchBtn" class="search-button">Search</button>
 </div>
+
 <script type="module">
-  import { bangs } from '/src/bang.js';
+  import { bangs } from './src/bang.js';
 
   const input = document.getElementById('searchInput');
   const button = document.getElementById('searchBtn');
@@ -100,6 +117,8 @@
         }
       });
   }
+
+
 </script>
 </body>
 </html>
