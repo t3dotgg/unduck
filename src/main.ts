@@ -65,7 +65,7 @@ function getBangredirectUrl() {
   const selectedBang = bangs.find((b) => b.t === bangCandidate) ?? defaultBang;
 
   if (query === selectedBang?.t) {
-    return selectedBang?.d;
+    return selectedBang.d;
   }
 
   // Remove the first bang from the query
