@@ -116,7 +116,8 @@ function getBangs(query: string) {
 
 
 	mainBang.sb.filter((b) => b.d).forEach((b) => {
-		if (allBangs.find((bang) => bang.bang.b === b.b)) return;
+    if (allBangs.find((bang) => bang.bang.b === b.b)) return;
+    if (!b.d) return; // Must include for type checking
 		allBangs.push({bang: b, value: b.d});
 	});
 
@@ -166,12 +167,12 @@ function getBangredirectUrl() {
 			formatQuery(value)
 		);
 	});
-
-  if (urlParams) {
+  const params = urlParams.toString()
+  if (params) {
     if (searchUrl.includes("?")) {
-      searchUrl += `&${urlParams.toString()}`;
+      searchUrl += `&${params}`;
     } else {
-      searchUrl += `?${urlParams.toString()}`;
+      searchUrl += `?${params}`;
     }
   }
 
