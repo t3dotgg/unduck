@@ -15,7 +15,7 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          vendor: ['./bang.ts']
+          vendor: ['./src/bang.ts']
         }
       }
     },
