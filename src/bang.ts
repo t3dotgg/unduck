@@ -31619,6 +31619,15 @@ export const bangs = [
     u: "https://www.searchencrypt.com/search?eq={{{s}}}",
   },
   {
+    c: "Online Services",
+    d: "www.kagi.com",
+    r: 0,
+    s: "Kagi",
+    sc: "Search (Private)",
+    t: "kagi",
+    u: "https://www.kagi.com/search?q={{{s}}}",
+  },
+  {
     c: "Research",
     d: "encyc.org",
     r: 0,
