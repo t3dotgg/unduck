@@ -12,7 +12,7 @@ export const bangs = [
   },
   {   
     c: "Online Services",
-    d: "www.google.com",
+    d: "www.perplexity.ai",
     r: 0,
     s: "Perplexity",
     sc: "Perplexity",
