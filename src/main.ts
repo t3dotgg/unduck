@@ -12,7 +12,7 @@ function noSearchDefaultPageRender() {
           <input 
             type="text" 
             class="url-input"
-            value="https://unduck.link?q=%s"
+            value="https://quack-three.vercel.app/q=%s"
             readonly 
           />
           <button class="copy-button">
@@ -26,6 +26,8 @@ function noSearchDefaultPageRender() {
         <a href="https://x.com/theo" target="_blank">theo</a>
         •
         <a href="https://github.com/t3dotgg/unduck" target="_blank">github</a>
+                •
+        <a href="jakeplays12.github.io" target="_blank">Forked By Jakeplays12</a>
       </footer>
     </div>
   `;
