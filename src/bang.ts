@@ -23414,12 +23414,12 @@ export const bangs = [
     },
     {
         c: 'Research',
-        d: 'duckduckgo.com',
+        d: 'google.com',
         r: 415,
-        s: 'Reddit search (via DuckDuckGo)',
+        s: 'Reddit search (via Google)',
         sc: 'Reference (fun)',
-        t: 'ddgr',
-        u: 'https://duckduckgo.com/?q=site:reddit.com+{{{s}}}',
+        t: 'gr',
+        u: 'https://google.com/?q=site:reddit.com+{{{s}}}',
     },
     {
         c: 'Multimedia',
