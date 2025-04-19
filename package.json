@@ -13,6 +13,7 @@
     "vite": "^6.1.0"
   },
   "dependencies": {
+    "@fontsource/inter": "^5.1.1",
     "vite-plugin-pwa": "^0.21.1"
   }
 }
