@@ -12,7 +12,7 @@ function noSearchDefaultPageRender() {
           <input 
             type="text" 
             class="url-input"
-            value="https://unduck.link?q=%s"
+            value="${window.location.origin}?q=%s"
             readonly 
           />
           <button class="copy-button">
