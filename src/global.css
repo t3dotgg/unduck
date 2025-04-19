@@ -27,6 +27,32 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* Light mode colors */
+  --bg-color: #ffffff;
+  --text-color: #1a1a1a;
+  --link-color: #444444;
+  --link-hover-color: #888888;
+  --input-bg: #f5f5f5;
+  --input-border: #ddd;
+  --button-hover-bg: #f0f0f0;
+  --button-active-bg: #e5e5e5;
+  --footer-text-color: #666;
+  --footer-link-hover: #333;
+}
+
+[data-theme="dark"] {
+  /* Dark mode colors */
+  --bg-color: #121212;
+  --text-color: #ffffff;
+  --link-color: #90caf9;
+  --link-hover-color: #bbdefb;
+  --input-bg: #1e1e1e;
+  --input-border: #333333;
+  --button-hover-bg: #333333;
+  --button-active-bg: #424242;
+  --footer-text-color: #bbbbbb;
+  --footer-link-hover: #ffffff;
 }
 
 * {
@@ -41,11 +67,20 @@ body {
   width: 100%;
 }
 
+html {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
 body {
   line-height: 1.5;
   font-weight: 400;
   font-size: 16px;
-  color: #1a1a1a;
+  color: var(--text-color);
+  background-color: var(--bg-color);
+  min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 h1,
@@ -59,11 +94,12 @@ h6 {
 }
 
 a {
-  color: #444444;
+  color: var(--link-color);
+  transition: color 0.3s ease;
 }
 
 a:hover {
-  color: #888888;
+  color: var(--link-hover-color);
 }
 
 button {
@@ -96,15 +132,17 @@ textarea {
 /* Update url-input width to be 100% since container will control max width */
 .url-input {
   padding: 8px 12px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--input-border);
   border-radius: 4px;
   width: 100%;
-  background: #f5f5f5;
+  background: var(--input-bg);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 .copy-button {
   padding: 8px;
-  color: #666;
+  color: var(--text-color);
   border-radius: 4px;
   transition: all 0.2s;
   display: flex;
@@ -113,20 +151,32 @@ textarea {
 }
 
 .copy-button:hover {
-  background: #f0f0f0;
+  background-color: var(--button-hover-bg);
 }
 
 .copy-button:active {
-  background: #e5e5e5;
+  background-color: var(--button-active-bg);
 }
 
 .copy-button img {
   width: 20px;
   height: 20px;
+  -webkit-filter: invert(0%);
+  filter: invert(0%);
+}
+
+[data-theme="dark"] .copy-button img {
+  -webkit-filter: invert(90%);
+  filter: invert(90%);
 }
 
 .copy-button.copied {
   background: #28a745;
+}
+
+.copy-button.copied img {
+  -webkit-filter: invert(100%);
+  filter: invert(100%);
 }
 
 /* Add footer styles */
@@ -137,17 +187,50 @@ textarea {
   right: 0;
   text-align: center;
   font-size: 14px;
-  color: #666;
+  color: var(--footer-text-color);
 }
 
 .footer a {
-  color: #666;
+  color: var(--footer-text-color);
   text-decoration: none;
   font-weight: 500;
+  transition: color 0.3s ease;
 }
 
 .footer a:hover {
-  color: #333;
+  color: var(--footer-link-hover);
+}
+
+/* Dark mode toggle styles */
+.theme-toggle {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--bg-color);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  z-index: 100;
+}
+
+[data-theme="dark"] .theme-toggle {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  background-color: #1e1e1e;
+}
+
+.theme-toggle:hover {
+  background-color: var(--button-hover-bg);
+}
+
+.theme-toggle img {
+  width: 24px;
+  height: 24px;
 }
 
 @media (prefers-color-scheme: dark) {
