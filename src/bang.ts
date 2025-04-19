@@ -118832,15 +118832,6 @@ export const bangs = [
     u: "http://www.wikiwand.com/tr/{{{s}}}",
   },
   {
-    c: "Multimedia",
-    d: "www.89porno.com",
-    r: 20,
-    s: "Porno \u0130zle",
-    sc: "Video",
-    t: "www.89porno.com",
-    u: "http://www.89porno.com/?s={{{s}}}",
-  },
-  {
     c: "Research",
     d: "www.wikiwand.com",
     r: 63,
