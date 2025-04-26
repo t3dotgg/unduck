@@ -60,9 +60,9 @@ function getBangs(q: string) {
 
     const queryParams = new URLSearchParams();
 
-    if (splitQuery.length === 1) {
+    if (q.trim() === `!${mainBang.t}`) {
         return {
-            searchUrl: mainBang.u,
+            searchUrl: mainBang.d,
         };
     }
 
@@ -102,19 +102,8 @@ function getBangs(q: string) {
         }
     }
 
-    // Construct full search URL
-    let searchUrl = mainBang.u;
-    if (query) {
-        // Append query with replaced parameters
-        searchUrl += query.startsWith("?") ? query : `?${query}`;
-    }
-    const paramsString = queryParams.toString();
-    if (paramsString) {
-        searchUrl += (searchUrl.includes("?") ? "&" : "?") + paramsString;
-    }
-
     return {
-        searchUrl,
+        searchUrl: query,
     };
 }
 

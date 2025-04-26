@@ -3,7 +3,6 @@ export type SubBang = {
 
     k?: string; // the key in the bang url
     u?: string; // url query param
-    ls?: string; // localStorage key
 
     l: number; // the length of its query, -1 is until next bang
 
@@ -13,11 +12,11 @@ export type SubBang = {
 
 export type Bang = {
     c?: string; // catagory
-    d: string;
-    r: number;
-    s: string;
+    d: string; // home page 
+    r: number; // rank
+    s: string; // search name
     sc?: string; // subCatagory
-    t: string;
-    u: string;
+    t: string; // the bang
+    u: string; // the url
     sb: SubBang[]; // SubBangs
 };
