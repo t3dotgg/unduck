@@ -1,13 +1,16 @@
-import { bangs, Bang, SubBang } from "./bang";
+import { bangs, type Bang } from "./bang";
 import "./global.css";
 
 function formatQuery(query: string) {
-	return encodeURIComponent(query).replace(/%2F/g, "/").replace("%23", "#");
+    return encodeURIComponent(query)
+        .replace(/%2F/g, "/")
+        .replace(/%23/g, "#")
+        .trim();
 }
 
 function noSearchDefaultPageRender() {
-	const app = document.querySelector<HTMLDivElement>("#app")!;
-	app.innerHTML = `
+    const app = document.querySelector<HTMLDivElement>("#app")!;
+    app.innerHTML = `
     <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh;">
       <div class="content-container">
         <h1>Und*ck</h1>
@@ -16,8 +19,8 @@ function noSearchDefaultPageRender() {
           <input 
             type="text" 
             class="url-input"
-            value="https://unduck.link?q=%s"
-            readonly 
+            value="https://quickduck.vercel.app?q=%s"
+            readonly
           />
           <button class="copy-button">
             <img src="/clipboard.svg" alt="Copy" />
@@ -34,156 +37,129 @@ function noSearchDefaultPageRender() {
     </div>
   `;
 
-	const copyButton = app.querySelector<HTMLButtonElement>(".copy-button")!;
-	const copyIcon = copyButton.querySelector("img")!;
-	const urlInput = app.querySelector<HTMLInputElement>(".url-input")!;
+    const copyButton = app.querySelector<HTMLButtonElement>(".copy-button")!;
+    const copyIcon = copyButton.querySelector("img")!;
+    const urlInput = app.querySelector<HTMLInputElement>(".url-input")!;
 
-	copyButton.addEventListener("click", async () => {
-		await navigator.clipboard.writeText(urlInput.value);
-		copyIcon.src = "/clipboard-check.svg";
+    copyButton.addEventListener("click", async () => {
+        await navigator.clipboard.writeText(urlInput.value);
+        copyIcon.src = "/clipboard-check.svg";
 
-		setTimeout(() => {
-			copyIcon.src = "/clipboard.svg";
-		}, 2000);
-	});
+        setTimeout(() => {
+            copyIcon.src = "/clipboard.svg";
+        }, 2000);
+    });
 }
 
 const LS_DEFAULT_BANG = localStorage.getItem("default-bang") ?? "g";
-const defaultBang = bangs.find((b) => b.t === LS_DEFAULT_BANG);
+const defaultBang = bangs.find((b) => b.t === LS_DEFAULT_BANG) ?? bangs[0];
 
-function getBangs(query: string) {
-	let curBang: SubBang | null = null;
-	let bangQuery: string[] = [];
-	const mainBang: Bang = getBang(query).bang;
-	const allBangs: {bang: SubBang, value: string}[] = [];
-	const splitQuery = query.split(" ");
-	const mainBangQuery = []
-	let length = 0;
+function getBangs(q: string) {
+    let { bang: mainBang, query } = getBang(q);
+    const splitQuery = query.split(" ");
 
+    const queryParams = new URLSearchParams();
 
-	for (let i = 1; i < splitQuery.length; i++) {
-		const word = splitQuery[i];
-
-		if (word.startsWith("!")) {
-			const bang = mainBang.sb.find((b) => `!${b.b}` === word);
-
-			if (!bang) {
-				bangQuery.push(word);
-				length++;
-				continue;
-			}
-
-
-			if (curBang) {
-				allBangs.push({bang: curBang, value: bangQuery.reverse().join(" ")});
-			}
-
-			if (bang.v) {
-				allBangs.push({bang: bang, value: bang.v});
-			}
-
-			curBang = bang;
-			bangQuery = [];
-			length = 0;
-			continue;
-		}
-
-		if (!curBang) {
-			mainBangQuery.push(word);
-			continue;
-		};
-
-		if (curBang.l !== -1 && length >= curBang.l) {
-			allBangs.push({
-				bang: curBang,
-				value: bangQuery.reverse().join(" "),
-			});
-			bangQuery = [];
-			length = 0;
-			curBang = null;
-			mainBangQuery.push(word);
-			continue;
-		}
-
-		bangQuery.push(word);
-		length++;
-	}
-
-
-	if (curBang) {
-		allBangs.push({bang: curBang, value: bangQuery.reverse().join(" ")});
-	}
-
-
-	mainBang.sb.filter((b) => b.d).forEach((b) => {
-    if (allBangs.find((bang) => bang.bang.b === b.b)) return;
-    if (!b.d) return; // Must include for type checking
-		allBangs.push({bang: b, value: b.d});
-	});
-
-	return { sub: allBangs, main: mainBang, query: mainBangQuery.join(" ") };
-}
-
-
-function getBang(query: string): {bang:Bang, query:string} {
-	const match = query.match(/!(\S+)/i);
-
-	const bangCandidate = match?.[1]?.toLowerCase();
-	const selectedBang = bangs.find((b) => b.t === bangCandidate);
-	if (!selectedBang) return { bang: defaultBang as Bang, query };
-
-  return { bang: selectedBang as Bang, query: query.replace(selectedBang.t, "").trim() };
-}
-
-function getBangredirectUrl() {
-	const url = new URL(window.location.href);
-	const query = url.searchParams.get("q")?.trim() ?? "";
-	if (!query) {
-		noSearchDefaultPageRender();
-		return null;
-	}
-
-
-	const { sub: subBangs, main: selectedBang, query: newQuery } = getBangs(query);
-
-
-	// Format of the url is:
-	// https://www.google.com/search?q={{{s}}}
-	const urlParams: URLSearchParams = new URLSearchParams();
-	let searchUrl = selectedBang.u.replace(
-		"{{{s}}}",
-		formatQuery(newQuery)
-	);
-
-
-	subBangs.forEach(({ value, bang }) => {
-		if (bang.u) {
-			urlParams.set(bang.u, value)
-			return
-		}
-
-		searchUrl = searchUrl.replace(
-			`{{{${bang.b}}}}`,
-			formatQuery(value)
-		);
-	});
-  const params = urlParams.toString()
-  if (params) {
-    if (searchUrl.includes("?")) {
-      searchUrl += `&${params}`;
-    } else {
-      searchUrl += `?${params}`;
+    if (splitQuery.length === 1) {
+        return {
+            searchUrl: mainBang.u,
+        };
     }
-  }
 
-	if (!searchUrl) return null;
-	return searchUrl;
+    if (mainBang.sb.length > 0) {
+        for (const b of mainBang.sb) {
+            const bangToken = `!${b.b}`;
+            if (splitQuery.includes(bangToken)) {
+                let value = "";
+                if (b.l === 0) {
+                    value = b.v ?? b.d ?? "";
+                } else {
+                    const index = splitQuery.indexOf(bangToken);
+                    let v = "";
+                    // Collect all tokens after bangToken until next bang or end
+                    for (let i = 0; i < Math.min(splitQuery.length-index, b.l); i++) {
+                        if (splitQuery[index+1].startsWith("!")) break;
+                        v += (v ? " " : "") + splitQuery[index+1];
+                        splitQuery.splice(index+1, 1); // remove current token, do not increment i
+                    }
+                    value = v || b.d || "";
+                    splitQuery.splice(index, 1); // remove the bang token itself
+                }
+                if (b.k) {
+                    query = query.replace(`{{{${b.k}}}}`, formatQuery(value));
+                } else if (b.u) {
+                    queryParams.set(b.u, value);
+                }
+            } else {
+                // Check default / required
+                const value = b.d ?? "";
+                if (b.k && value) {
+                    query = query.replace(`{{{${b.k}}}}`, formatQuery(value));
+                } else if (b.u && value) {
+                    queryParams.set(b.u, value);
+                }
+            }
+        }
+    }
+
+    // Construct full search URL
+    let searchUrl = mainBang.u;
+    if (query) {
+        // Append query with replaced parameters
+        searchUrl += query.startsWith("?") ? query : `?${query}`;
+    }
+    const paramsString = queryParams.toString();
+    if (paramsString) {
+        searchUrl += (searchUrl.includes("?") ? "&" : "?") + paramsString;
+    }
+
+    return {
+        searchUrl,
+    };
+}
+
+function getBang(query: string): { bang: Bang; query: string } {
+    // Find all bang matches like !g, !yt, etc.
+    const matches = query.match(/!(\S+)/gi) ?? [];
+    const bangCandidates = matches.map((m) => m.toLowerCase());
+
+    // Find the first bang in bangs that matches any candidate
+    const selectedBang =
+        bangs.find((b) => bangCandidates.includes("!" + b.t.toLowerCase())) ??
+        defaultBang;
+
+    if (!selectedBang) {
+        return { bang: defaultBang, query };
+    }
+
+    // Remove the bang token from the query
+    const regex = new RegExp(`!${selectedBang.t}`, "i");
+    const newQuery = query.replace(regex, "").trim();
+
+    return {
+        bang: selectedBang,
+        query: newQuery,
+    };
+}
+
+function getBangRedirectUrl() {
+    const url = new URL(window.location.href);
+    const query = url.searchParams.get("q")?.trim() ?? "";
+    if (!query) {
+        noSearchDefaultPageRender();
+        return null;
+    }
+
+    const { searchUrl } = getBangs(query);
+
+    if (!searchUrl) return null;
+    return searchUrl;
 }
 
 function doRedirect() {
-	const searchUrl = getBangredirectUrl();
-	if (!searchUrl) return;
-	window.location.replace(searchUrl);
+    const searchUrl = getBangRedirectUrl();
+    if (!searchUrl) return;
+    window.location.replace(searchUrl);
 }
 
 doRedirect();
