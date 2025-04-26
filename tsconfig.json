@@ -19,8 +19,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
-
-    "types": ["node"],
   },
   "include": ["src"]
 }
