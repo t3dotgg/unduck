@@ -36,7 +36,7 @@ function noSearchDefaultPageRender() {
     app.innerHTML = `
     <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh;" id="container">
       <div class="content-container">
-        <h1>Und*ck</h1>
+        <h1>Quick D*ck</h1>
         <p>DuckDuckGo's bang redirects are too slow. Add the following URL as a custom search engine to your browser. Enables <a href="https://duckduckgo.com/bang.html" target="_blank">all of DuckDuckGo's bangs.</a></p>
         <div class="url-container"> 
           <input
@@ -110,9 +110,9 @@ function runErrors(errors: Error[]) {
     app.innerHTML = `
     <div class="errors">
       <div class="error-img">
-        <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
-        </svg>
+<svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+</svg>
       </div>
       <div class="error-container">
         ${Object.entries(errorTypes)
@@ -263,7 +263,7 @@ function getBangs(q: string) {
             .sort((a, b) => b - a)
             .forEach((idx) => splitQuery.splice(idx, 1));
 
-        if (invalidBangs.length > 0) {
+        if (invalidBangs) {
             runErrors(invalidBangs);
             return null;
         }
