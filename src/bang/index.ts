@@ -20,5 +20,15 @@ export const bangs = [
     ...Shopping,
     ...Multimedia,
     ...Translation,
+    {
+        c: "Test",
+        d: "www.test.com",
+        r: 0,
+        s: "Test",
+        sc: "Test",
+        t: "tst",
+        u: "https://www.test.com/{{{test}}}/search?q={{{s}}}",
+        sb: [{ b: "ts", k: "test", l: 1 }],
+    },
 ];
 export * from "./types";

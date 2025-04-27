@@ -2,27 +2,26 @@ import { bangs, type Bang, type SubBang } from "./bang";
 import "./global.css";
 
 function formatQuery(query: string) {
-    return encodeURIComponent(query)
+    // Trim before encoding to avoid encoding spaces at ends
+    return encodeURIComponent(query.trim())
         .replace(/%2F/g, "/")
-        .replace(/%23/g, "#")
-        .trim();
+        .replace(/%23/g, "#");
 }
 
-type Error = {
+interface Error {
     t: string;
     b: SubBang;
 }
 
-type requiredBang extends Error {
-    t: "requiredBang"; // type
+interface RequiredBang extends Error {
+    t: "requiredBang";
 }
 
-type invalidLength extends Error {
-    t: "invalidLength"; // type
-    l: number; // length
-    e: number; // expected
+interface InvalidLength extends Error {
+    t: "invalidLength";
+    l: number;
+    e: number;
 }
-
 
 function noSearchDefaultPageRender() {
     const app = document.querySelector<HTMLDivElement>("#app")!;
@@ -67,69 +66,109 @@ function noSearchDefaultPageRender() {
     });
 }
 
-function missingRequiredBang(errors: Error[]) {
-    const errorTypes:Record<Error["t"], Error[]> = {};
+function runErrors(errors: Error[]) {
+    const errorTypes: Record<string, Error[]> = {};
     errors.forEach((e) => {
         if (!errorTypes[e.t]) {
             errorTypes[e.t] = [];
         }
         errorTypes[e.t].push(e);
     });
+
     const generateError = (error: Error) => {
         switch (error.t) {
             case "requiredBang":
-                return `!${error.b}`;
+                return `!${error.b.b}`;
             case "invalidLength":
                 return `Expected ${error.e} but got ${error.l}`;
             default:
                 return "Unknown error";
         }
-    }
+    };
 
     const generateErrorType = (type: string) => {
         switch (type) {
             case "requiredBang":
                 return "Missing Required Bangs";
             case "invalidLength":
-                return "IBang has invalid length";
+                return "Bang has invalid length";
             default:
                 return "Unknown error";
         }
-    
-        
-    }
+    };
 
-    const container = document.querySelector<HTMLDivElement>("#container")!;
-    container.prepend(`
-        <div class="bg-red-500 text-white p-4 rounded-lg">
-            <div class="flex">
-                <div class="flex-shrink-0">
-                    <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
-                    </svg>
-                </div>
-                <div class="ml-3">
-                    ${errorTypes.map((type, errors) => {
-                        return `
-                            <div class="mt-2 text-sm text-red-700">
-                                <h3 class="text-sm font-medium text-red-800">${generateErrorType(type)}</h3>
-                                <div class="mt-2 text-sm text-red-700">
-                                <ul role="list" class="list-disc pl-5 space-y-1">
-                                    ${errors.map((e) => {
-                                        return `
-                                            <li>${generateError(e)}</li>
-                                        `;
-                                    })}
-                                </ul>
-                                </div>
-                            </div>
-                        `
-                    })}
-                </div>
+    const app = document.querySelector<HTMLDivElement>("#app")!;
+    app.innerHTML = `
+    <div class="errors">
+      <div class="error-img">
+        <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+        </svg>
+      </div>
+      <div class="error-container">
+        ${Object.entries(errorTypes)
+            .map(
+                ([type, errors]) => `
+          <div class="error-type">
+            <h3>${generateErrorType(type)}</h3>
+            <div class="error-list">
+              <ul role="list" class="">
+                ${errors
+                    .map(
+                        (e) =>
+                            `<li style="font-weight: bold;">${generateError(
+                                e
+                            )}</li>`
+                    )
+                    .join("")}
+              </ul>
+            </div>
+          </div>
+        `
+            )
+            .join("")}
+      </div>
+    </div>
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh;" id="container">
+
+      <div class="content-container">
+        <h1>Und*ck</h1>
+        <p>DuckDuckGo's bang redirects are too slow. Add the following URL as a custom search engine to your browser. Enables <a href="https://duckduckgo.com/bang.html" target="_blank">all of DuckDuckGo's bangs.</a></p>
+        <div class="url-container"> 
+          <input 
+            type="text" 
+            class="url-input"
+            value="https://quickduck.vercel.app?q=%s"
+            readonly
+          />
+          <button class="copy-button">
+            <img src="/clipboard.svg" alt="Copy" />
+          </button>
         </div>
-    `)
-}
+      </div>
+      <footer class="footer">
+        <a href="https://t3.chat" target="_blank">t3.chat</a>
+        •
+        <a href="https://x.com/theo" target="_blank">theo</a>
+        •
+        <a href="https://github.com/t3dotgg/unduck" target="_blank">github</a>
+      </footer>
+    </div>
+  `;
 
+    const copyButton = app.querySelector<HTMLButtonElement>(".copy-button")!;
+    const copyIcon = copyButton.querySelector("img")!;
+    const urlInput = app.querySelector<HTMLInputElement>(".url-input")!;
+
+    copyButton.addEventListener("click", async () => {
+        await navigator.clipboard.writeText(urlInput.value);
+        copyIcon.src = "/clipboard-check.svg";
+
+        setTimeout(() => {
+            copyIcon.src = "/clipboard.svg";
+        }, 2000);
+    });
+}
 
 const LS_DEFAULT_BANG = localStorage.getItem("default-bang") ?? "g";
 const defaultBang = bangs.find((b) => b.t === LS_DEFAULT_BANG) ?? bangs[0];
@@ -147,29 +186,48 @@ function getBangs(q: string) {
     }
 
     if (mainBang.sb.length > 0) {
-        const invalidBangs:SubBang[] = [];
+        const invalidBangs: Error[] = [];
+
+        // We will collect indices to remove after processing to avoid mutation during iteration
+        const indicesToRemove: number[] = [];
+
         for (const b of mainBang.sb) {
             const bangToken = `!${b.b}`;
-            if (splitQuery.includes(bangToken)) {
+            const index = splitQuery.indexOf(bangToken);
+
+            if (index !== -1) {
                 let value = "";
                 if (b.l === 0) {
                     value = b.v ?? b.d ?? "";
+                    // Remove bang token
+                    indicesToRemove.push(index);
                 } else {
-                    const index = splitQuery.indexOf(bangToken);
                     let v = "";
-                    // Collect all tokens after bangToken until next bang or end
-                    let i = 0;
-                    for (let i = 0; i < Math.min(splitQuery.length-index, b.l); i++) {
-                        if (splitQuery[index+1].startsWith("!")) break;
-                        v += (v ? " " : "") + splitQuery[index+1];
-                        splitQuery.splice(index+1, 1); // remove current token, do not increment i
+                    let count = 0;
+                    for (
+                        let i = index + 1;
+                        i < splitQuery.length && count < b.l;
+                        i++, count++
+                    ) {
+                        if (splitQuery[i].startsWith("!")) break;
+                        v += (v ? " " : "") + splitQuery[i];
                     }
-                    if (i !== b.l) {
-                        invalidBangs.push(b);
+                    if (count !== b.l) {
+                        invalidBangs.push({
+                            t: "invalidLength",
+                            l: count,
+                            e: b.l,
+                            b,
+                        });
                     }
                     value = v || b.d || "";
-                    splitQuery.splice(index, 1); // remove the bang token itself
+                    // Mark tokens for removal: bang token + collected tokens
+                    indicesToRemove.push(index);
+                    for (let i = 0; i < count; i++) {
+                        indicesToRemove.push(index + 1 + i);
+                    }
                 }
+
                 if (b.k) {
                     query = query.replace(`{{{${b.k}}}}`, formatQuery(value));
                 } else if (b.u) {
@@ -178,22 +236,36 @@ function getBangs(q: string) {
             } else {
                 // Check default / required
                 const value = b.d;
-                if (!value) {
-                    noSearchDefaultPageRender();
-                    missingRequiredBang(b);
-                    return null;
-                }
-                if (b.k && value) {
+                if (!value && b.k) {
+                    invalidBangs.push({
+                        t: "requiredBang",
+                        b,
+                    });
+                } else if (b.k && value) {
                     query = query.replace(`{{{${b.k}}}}`, formatQuery(value));
                 } else if (b.u && value) {
                     queryParams.set(b.u, value);
                 }
             }
         }
+
+        // Remove tokens in descending order to avoid index shift
+        indicesToRemove
+            .sort((a, b) => b - a)
+            .forEach((idx) => splitQuery.splice(idx, 1));
+
+        if (invalidBangs.length > 0) {
+            runErrors(invalidBangs);
+            return null;
+        }
     }
 
+    // Append queryParams to query if any
+    const paramString = queryParams.toString();
+    const finalQuery = paramString ? `${query}?${paramString}` : query;
+
     return {
-        searchUrl: query,
+        searchUrl: finalQuery,
     };
 }
 
@@ -205,14 +277,14 @@ function getBang(query: string): { bang: Bang; query: string } {
     // Find the first bang in bangs that matches any candidate
     const selectedBang =
         bangs.find((b) => bangCandidates.includes("!" + b.t.toLowerCase())) ??
-        defaultBang;
+        null;
 
     if (!selectedBang) {
         return { bang: defaultBang, query };
     }
 
-    // Remove the bang token from the query
-    const regex = new RegExp(`!${selectedBang.t}`, "i");
+    // Remove all occurrences of the selected bang token (case-insensitive)
+    const regex = new RegExp(`!${selectedBang.t}`, "gi");
     const newQuery = query.replace(regex, "").trim();
 
     return {
@@ -229,10 +301,10 @@ function getBangRedirectUrl() {
         return null;
     }
 
-    const { searchUrl } = getBangs(query);
+    const resp = getBangs(query);
 
-    if (!searchUrl) return null;
-    return searchUrl;
+    if (!resp) return null;
+    return resp.searchUrl;
 }
 
 function doRedirect() {
