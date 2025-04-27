@@ -31,7 +31,6 @@ interface OtherError extends ErrorBase {
 // Union of all error types
 type Error = RequiredBang | InvalidLength | OtherError;
 
-
 function noSearchDefaultPageRender() {
     const app = document.querySelector<HTMLDivElement>("#app")!;
     app.innerHTML = `
@@ -75,7 +74,7 @@ function noSearchDefaultPageRender() {
     });
 }
 
-function runErrors(errors: (Error | RequiredBang | InvalidLength)[]) {
+function runErrors(errors: Error[]) {
     const errorTypes: Record<string, Error[]> = {};
     errors.forEach((e) => {
         if (!errorTypes[e.t]) {
@@ -84,7 +83,7 @@ function runErrors(errors: (Error | RequiredBang | InvalidLength)[]) {
         errorTypes[e.t].push(e);
     });
 
-    const generateError = (error: Error | RequiredBang | InvalidLength) => {
+    const generateError = (error: Error) => {
         switch (error.t) {
             case "requiredBang":
                 return `!${error.b.b}`;
@@ -94,36 +93,6 @@ function runErrors(errors: (Error | RequiredBang | InvalidLength)[]) {
                 return "Unknown error";
         }
     };
-
-    const generateErrorType = (type: string) => {
-        switch (type) {
-            case "requiredBang":
-                return "Missing Required Bangs";
-            case "invalidLength":
-                return "Bang has invalid length";
-            default:
-                return "Unknown error";
-        }
-    };function runErrors(errors: Error[]) {
-  const errorTypes: Record<string, Error[]> = {};
-  errors.forEach((e) => {
-    if (!errorTypes[e.t]) {
-      errorTypes[e.t] = [];
-    }
-    errorTypes[e.t].push(e);
-  });
-
-  const generateError = (error: Error) => {
-    switch (error.t) {
-      case "requiredBang":
-        return `!${error.b.b}`;
-      case "invalidLength":
-        return `Expected ${error.e} but got ${error.l}`;
-      default:
-        return "Unknown error";
-    }
-  };
-
 
     const app = document.querySelector<HTMLDivElement>("#app")!;
     app.innerHTML = `
