@@ -2,26 +2,35 @@ import { bangs, type Bang, type SubBang } from "./bang";
 import "./global.css";
 
 function formatQuery(query: string) {
-    // Trim before encoding to avoid encoding spaces at ends
     return encodeURIComponent(query.trim())
         .replace(/%2F/g, "/")
         .replace(/%23/g, "#");
 }
 
-interface Error {
-    t: string;
+// Base error interface for all errors
+interface ErrorBase {
     b: SubBang;
 }
 
-interface RequiredBang extends Error {
+// Specific error types with discriminated union on 't'
+interface RequiredBang extends ErrorBase {
     t: "requiredBang";
 }
 
-interface InvalidLength extends Error {
+interface InvalidLength extends ErrorBase {
     t: "invalidLength";
-    l: number;
-    e: number;
+    l: number; // length found
+    e: number; // expected length
 }
+
+// Generic error for any other error types (optional)
+interface OtherError extends ErrorBase {
+    t: string; // any other string except reserved ones
+}
+
+// Union of all error types
+type Error = RequiredBang | InvalidLength | OtherError;
+
 
 function noSearchDefaultPageRender() {
     const app = document.querySelector<HTMLDivElement>("#app")!;
@@ -66,7 +75,7 @@ function noSearchDefaultPageRender() {
     });
 }
 
-function runErrors(errors: (Error|RequiredBang|InvalidLength)[]) {
+function runErrors(errors: (Error | RequiredBang | InvalidLength)[]) {
     const errorTypes: Record<string, Error[]> = {};
     errors.forEach((e) => {
         if (!errorTypes[e.t]) {
@@ -75,7 +84,7 @@ function runErrors(errors: (Error|RequiredBang|InvalidLength)[]) {
         errorTypes[e.t].push(e);
     });
 
-    const generateError = (error: Error) => {
+    const generateError = (error: Error | RequiredBang | InvalidLength) => {
         switch (error.t) {
             case "requiredBang":
                 return `!${error.b.b}`;
@@ -95,7 +104,26 @@ function runErrors(errors: (Error|RequiredBang|InvalidLength)[]) {
             default:
                 return "Unknown error";
         }
-    };
+    };function runErrors(errors: Error[]) {
+  const errorTypes: Record<string, Error[]> = {};
+  errors.forEach((e) => {
+    if (!errorTypes[e.t]) {
+      errorTypes[e.t] = [];
+    }
+    errorTypes[e.t].push(e);
+  });
+
+  const generateError = (error: Error) => {
+    switch (error.t) {
+      case "requiredBang":
+        return `!${error.b.b}`;
+      case "invalidLength":
+        return `Expected ${error.e} but got ${error.l}`;
+      default:
+        return "Unknown error";
+    }
+  };
+
 
     const app = document.querySelector<HTMLDivElement>("#app")!;
     app.innerHTML = `
@@ -186,7 +214,7 @@ function getBangs(q: string) {
     }
 
     if (mainBang.sb.length > 0) {
-        const invalidBangs: (Error|InvalidLength|RequiredBang)[] = [];
+        const invalidBangs: Error[] = [];
 
         // We will collect indices to remove after processing to avoid mutation during iteration
         const indicesToRemove: number[] = [];
