@@ -141,7 +141,7 @@ function runErrors(errors: Error[]) {
     <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh;" id="container">
 
       <div class="content-container">
-        <h1>Und*ck</h1>
+        <h1>Quick D*ck</h1>
         <p>DuckDuckGo's bang redirects are too slow. Add the following URL as a custom search engine to your browser. Enables <a href="https://duckduckgo.com/bang.html" target="_blank">all of DuckDuckGo's bangs.</a></p>
         <div class="url-container"> 
           <input 
@@ -156,11 +156,11 @@ function runErrors(errors: Error[]) {
         </div>
       </div>
       <footer class="footer">
-        <a href="https://t3.chat" target="_blank">t3.chat</a>
+        <a href="https://github.com/t3dotgg/unduck" target="_blank">unduck</a>
         •
-        <a href="https://x.com/theo" target="_blank">theo</a>
+        <a href="https://github.com/r5dan/quickduck" target="_blank">github</a>
         •
-        <a href="https://github.com/t3dotgg/unduck" target="_blank">github</a>
+        <a href="#" target="_blank">placeholder</a>
       </footer>
     </div>
   `;
@@ -271,7 +271,10 @@ function getBangs(q: string) {
 
     // Append queryParams to query if any
     const paramString = queryParams.toString();
-    const finalQuery = paramString ? `${query}?${paramString}` : query;
+    const separator = query.includes("?") ? "&" : "?";
+    const finalQuery = paramString
+        ? `${query}${separator}${paramString}`
+        : query;
 
     return {
         searchUrl: finalQuery,
