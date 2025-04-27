@@ -66,7 +66,7 @@ function noSearchDefaultPageRender() {
     });
 }
 
-function runErrors(errors: Error[]) {
+function runErrors(errors: (Error|RequiredBang|InvalidLength)[]) {
     const errorTypes: Record<string, Error[]> = {};
     errors.forEach((e) => {
         if (!errorTypes[e.t]) {
@@ -186,7 +186,7 @@ function getBangs(q: string) {
     }
 
     if (mainBang.sb.length > 0) {
-        const invalidBangs: Error[] = [];
+        const invalidBangs: (Error|InvalidLength|RequiredBang)[] = [];
 
         // We will collect indices to remove after processing to avoid mutation during iteration
         const indicesToRemove: number[] = [];
