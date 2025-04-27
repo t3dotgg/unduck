@@ -39,7 +39,7 @@ function noSearchDefaultPageRender() {
         <h1>Und*ck</h1>
         <p>DuckDuckGo's bang redirects are too slow. Add the following URL as a custom search engine to your browser. Enables <a href="https://duckduckgo.com/bang.html" target="_blank">all of DuckDuckGo's bangs.</a></p>
         <div class="url-container"> 
-          <input 
+          <input
             type="text" 
             class="url-input"
             value="https://quickduck.vercel.app?q=%s"
@@ -88,9 +88,21 @@ function runErrors(errors: Error[]) {
             case "requiredBang":
                 return `!${error.b.b}`;
             case "invalidLength":
+                // @ts-ignore
                 return `Expected ${error.e} but got ${error.l}`;
             default:
                 return "Unknown error";
+        }
+    };
+
+    const generateErrorType = (type: string) => {
+        switch (type) {
+            case "requiredBang":
+                return "Missing required bang";
+            case "invalidLength":
+                return "Invalid length";
+            default:
+                return "Unknown error type";
         }
     };
 
