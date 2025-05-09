@@ -102429,7 +102429,7 @@ export const bangs = [
     r: 0,
     s: "Termcat",
     sc: "Reference (words)",
-    t: "termcat",
+    t: "tcat",
     u: "https://www.termcat.cat/cercaterm/{{{s}}}?type=basic",
   },
   {
