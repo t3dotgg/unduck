@@ -10,4 +10,4 @@ https://spainduck.vercel.app?q=%s
 
 DuckDuckGo does their redirects server side. Their DNS is...not always great. Result is that it often takes ages.
 
-I solved this by doing all of the work client side. Once you've went to https://unduck.link once, the JS is all cache'd and will never need to be downloaded again. Your device does the redirects, not me.
+I solved this by doing all of the work client side. Once you've went to https://spainduck.vercel.app once, the JS is all cache'd and will never need to be downloaded again. Your device does the redirects, not me.
