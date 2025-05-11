@@ -26336,6 +26336,15 @@ export const bangs = [
     u: "http://dle.rae.es/?w={{{s}}}",
   },
   {
+    c: "Research",
+    d: "dle.rae.es",
+    r: 220,
+    s: "Diccionario de la lengua espa\u00f1ola, 23.\u00aa Edici\u00f3n, RAE",
+    sc: "Reference (words)",
+    t: "dlexp",
+    u: "http://dle.rae.es/?w={{{s}}}?m=form2",
+  },
+  {
     c: "Translation",
     d: "www.deepl.com",
     r: 0,
