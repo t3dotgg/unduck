@@ -16,7 +16,7 @@ export const bangs = [
     r: 4,
     s: "claude chat",
     sc: "code",
-    t: "claude",
+    t: "c",
     u: "http://www.claude.ai/new?q={{{s}}}",
   },
   {
