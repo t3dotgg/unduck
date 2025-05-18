@@ -12,7 +12,7 @@ function noSearchDefaultPageRender() {
           <input 
             type="text" 
             class="url-input"
-            value="https://unduck.link?q=%s"
+            value="https://unduck.link?q=%ss"
             readonly 
           />
           <button class="copy-button">
@@ -50,15 +50,19 @@ const defaultBang = bangs.find((b) => b.t === LS_DEFAULT_BANG);
 function getBangredirectUrl() {
   const url = new URL(window.location.href);
   const query = url.searchParams.get("q")?.trim() ?? "";
+  console.log(bangs)
   if (!query) {
     noSearchDefaultPageRender();
     return null;
   }
-
   const match = query.match(/!(\S+)/i);
 
   const bangCandidate = match?.[1]?.toLowerCase();
   const selectedBang = bangs.find((b) => b.t === bangCandidate) ?? defaultBang;
+  console.log("bangCandidate:", bangCandidate);
+  console.log("selectedBang:", selectedBang);
+
+
 
   // Remove the first bang from the query
   const cleanQuery = query.replace(/!\S+\s*/i, "").trim();
