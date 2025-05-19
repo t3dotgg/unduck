@@ -21,11 +21,10 @@ function noSearchDefaultPageRender() {
         </div>
       </div>
       <footer class="footer">
-        <a href="https://t3.chat" target="_blank">t3.chat</a>
+       
+        <a href="https://x.com/laxis_op" target="_blank">laxis</a>
         •
-        <a href="https://x.com/theo" target="_blank">theo</a>
-        •
-        <a href="https://github.com/t3dotgg/unduck" target="_blank">github</a>
+        <a href="https://github.com/Priyabhunia/quack" target="_blank">github</a>
       </footer>
     </div>
   `;
