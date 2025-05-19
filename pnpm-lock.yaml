@@ -7,10 +7,6 @@ settings:
 importers:
 
   .:
-    dependencies:
-      vite-plugin-pwa:
-        specifier: ^0.21.1
-        version: 0.21.1(vite@6.1.0(terser@5.39.0))(workbox-build@7.3.0)(workbox-window@7.3.0)
     devDependencies:
       typescript:
         specifier: ~5.7.2
@@ -18,6 +14,9 @@ importers:
       vite:
         specifier: ^6.1.0
         version: 6.1.0(terser@5.39.0)
+      vite-plugin-pwa:
+        specifier: ^0.21.1
+        version: 0.21.1(vite@6.1.0(terser@5.39.0))(workbox-build@7.3.0)(workbox-window@7.3.0)
 
 packages:
 
