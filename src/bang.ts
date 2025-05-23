@@ -11,6 +11,15 @@ export const bangs = [
     u: "https://www.t3.chat/new?q={{{s}}}",
   },
   {
+    c: "AI",
+    d: "www.beta.t3.chat",
+    r: 0,
+    s: "T3 Chat",
+    sc: "AI",
+    t: "bt3",
+    u: "https://www.beta.t3.chat/new?q={{{s}}}",
+  },
+  {
     c: "Tech",
     d: "www.01net.com",
     r: 4,
