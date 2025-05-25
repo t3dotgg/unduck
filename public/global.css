@@ -1,3 +1,5 @@
+/* @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"); */
+
 /* Font fallback that closely matches Inter metrics */
 @font-face {
 	font-family: "Inter Fallback";
@@ -34,7 +36,6 @@
 	--bg-color-secondary: #f5f5f5;
 	--bg-color-hover: #f0f0f0;
 	--bg-color-active: #e5e5e5;
-	--bg-color-danger: #e9808a;
 	--border-color: #ddd;
 }
 
@@ -47,7 +48,6 @@
 		--bg-color-secondary: #1e1e1e;
 		--bg-color-hover: #2a2a2a;
 		--bg-color-active: #333;
-		--bg-color-danger: #f15f6d;
 		--border-color: #444;
 	}
 }
@@ -58,8 +58,9 @@
 	box-sizing: border-box;
 	outline: none;
 }
+
 *:focus {
-	outline: 2px solid var(--text-color-secondary);
+	border: 2px solid var(--text-color-secondary);
 }
 
 html,
@@ -93,12 +94,6 @@ a {
 a:hover {
 	color: var(--text-color-hover);
 }
-footer a {
-	color: var(--text-color) !important;
-}
-footer a:hover {
-	color: var(--text-color-hover) !important;
-}
 
 button {
 	font: inherit;
@@ -120,46 +115,21 @@ textarea {
 	margin-top: 16px;
 }
 
+/* Add this new style */
 .content-container {
 	max-width: 37rem;
 	text-align: center;
 	padding: 0 8px;
-	text-wrap: pretty;
 }
 
+/* Update url-input width to be 100% since container will control max width */
 input {
-	margin: 2px 0px !important;
 	padding: 8px 12px;
 	border: 1px solid var(--border-color);
 	border-radius: 4px;
 	width: 100%;
 	background: var(--bg-color-secondary);
 	color: var(--text-color);
-}
-
-.flash-white {
-	outline: 2px solid var(--text-color-secondary);
-	background: color-mix(in srgb, var(--text-color) 75%, var(--bg-color));
-	opacity: 0.2;
-	animation: flash 0.275s forwards;
-}
-
-@keyframes flash {
-	0% {
-		opacity: 0.2;
-		outline: 2px solid var(--text-color-secondary);
-		background: color-mix(in srgb, var(--text-color) 55%, var(--bg-color));
-	}
-	50% {
-		opacity: 1;
-		outline: 2px solid var(--text-color-hover);
-		background: color-mix(in srgb, var(--text-color) 75%, var(--bg-color));
-	}
-	100% {
-		opacity: 0.2;
-		outline: 2px solid var(--text-color-secondary);
-		background: color-mix(in srgb, var(--text-color) 55%, var(--bg-color));
-	}
 }
 
 .copy-button {
@@ -210,6 +180,7 @@ input {
 	color: var(--text-color-hover);
 }
 
+/* Add styles for the settings button */
 .settings-button {
 	padding: 8px;
 	color: var(--text-color-secondary);
@@ -228,8 +199,7 @@ input {
 	background: var(--bg-color-active);
 }
 
-.settings-button:hover img,
-.settings-button.rotate img {
+.settings-button:hover img {
 	transform: rotate(180deg);
 	transition: transform 0.6s ease;
 }
@@ -242,7 +212,7 @@ input {
 	transition: transform 0.6s ease;
 }
 
-.settings-button:not(:hover):not(.rotate) .settings {
+.settings-button:not(:hover) .settings {
 	transform: rotate(0deg);
 }
 
@@ -261,13 +231,11 @@ input {
 	position: relative;
 	background-color: var(--bg-color);
 	border: 1px solid var(--border-color);
-	margin: 5% auto; /* Reduced from 15% to 5% to give more space */
+	margin: 15% auto;
 	padding: 20px;
 	border-radius: 8px;
 	width: 80%;
 	max-width: 500px;
-	max-height: 80vh; /* 80% of viewport height */
-	overflow-y: auto; /* Makes content scrollable */
 }
 
 .close-modal {
@@ -286,7 +254,6 @@ input {
 	padding: 8px;
 	margin-top: 10px;
 	border-radius: 4px;
-	padding-right: 30px;
 }
 
 .bang-select-container {
@@ -299,10 +266,15 @@ input {
 	content: "↵";
 	position: absolute;
 	right: 10px;
-	top: 18%;
+	top: 33%;
 	color: var(--text-color-secondary);
 	pointer-events: none;
 	font-size: 1.2em;
+}
+
+/* Update the bang-select class to account for the icon */
+.bang-select {
+	padding-right: 30px; /* Make room for the icon */
 }
 
 @keyframes shake {
@@ -334,135 +306,4 @@ input {
 
 .flash-red {
 	animation: flash-red 0.3s ease-in-out;
-}
-
-.settings-section {
-	margin-bottom: 1rem;
-}
-
-.switch {
-	display: flex;
-	align-items: center;
-	gap: 8px;
-	margin: 8px 0;
-}
-
-.switch input {
-	width: 40px;
-	height: 20px;
-	appearance: none;
-	background-color: var(--bg-color-secondary);
-	border-radius: 20px;
-	position: relative;
-	cursor: pointer;
-	transition: background-color 0.3s;
-}
-
-.switch input:checked {
-	background-color: var(--text-color);
-}
-
-.switch input:before {
-	content: "";
-	width: 16px;
-	height: 16px;
-	background-color: var(--text-color);
-	position: absolute;
-	border-radius: 50%;
-	top: 2px;
-	left: 2px;
-	transition:
-		left 0.3s,
-		background-color 0.3s;
-}
-
-.switch input:checked:before {
-	background-color: var(--bg-color-secondary);
-	left: 22px;
-}
-
-.clear-history,
-.remove-bang {
-	margin-top: 8px;
-	padding: 8px 16px;
-	background-color: var(--bg-color-danger);
-	color: var(--text-color);
-	border-radius: 4px;
-	transition: all 0.2s;
-}
-
-.remove-bang {
-	padding: 4px 6px;
-}
-
-.clear-history:hover,
-.remove-bang:hover {
-	background-color: var(--bg-color-hover);
-}
-
-.clear-history:active,
-.remove-bang:active {
-	background-color: var(--bg-color-active);
-	transform: scale(0.98);
-}
-
-.add-bang {
-	margin-top: 8px;
-	padding: 8px 16px;
-	background-color: var(--text-color);
-	color: var(--bg-color);
-	border-radius: 4px;
-	transition: all 0.2s;
-}
-
-.add-bang:hover {
-	background-color: var(--bg-color-hover);
-	color: var(--text-color-hover);
-}
-
-.add-bang:active {
-	background-color: var(--bg-color-active);
-	transform: scale(0.98);
-}
-
-.custom-bang-item {
-	display: flex;
-	flex-direction: column;
-	gap: 8px;
-	padding: 12px;
-	border: 1px solid var(--border-color);
-	border-radius: 4px;
-	margin-top: 8px;
-}
-
-.custom-bang-info {
-	width: 100%;
-	border-collapse: collapse;
-	border: 1px solid var(--border-color);
-}
-
-.custom-bang-info td {
-	color: var(--text-color-secondary);
-	padding: 8px 16px;
-	border: 1px solid var(--border-color);
-}
-
-.custom-bang-info td:nth-child(2) code {
-	padding: 0.3rem;
-	border-radius: 4px;
-	word-break: break-all;
-	background-color: var(--bg-color-secondary);
-}
-
-.custom-bang-info td:last-child {
-	border-right: 1px solid var(--border-color);
-}
-
-.custom-bang-name {
-	font-weight: 500;
-}
-
-.custom-bang-url {
-	word-break: break-all;
-	color: var(--text-color-secondary);
 }

@@ -1,19 +1,22 @@
 {
-  "name": "unduck",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
-  },
-  "devDependencies": {
-    "@types/node": "^22.13.10",
-    "typescript": "~5.7.2",
-    "vite": "^6.1.0"
-  },
-  "dependencies": {
-    "vite-plugin-pwa": "^0.21.1"
-  }
+	"name": "unduck",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "bunx --bun vite",
+		"build": "bunx --bun vite build",
+		"preview": "bunx --bun vite preview",
+		"hash": "bun run src/bangs/hashbanggen.ts",
+		"check": "bun run src/bangs/test-bangs.ts"
+	},
+	"devDependencies": {
+		"typescript": "~5.7.2",
+		"vite": "^6.1.0",
+		"@types/bun": "^1.2.4",
+		"vite-plugin-pwa": "^0.21.1"
+	},
+	"dependencies": {
+		"@fontsource/inter": "^5.2.5"
+	}
 }

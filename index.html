@@ -1,43 +1,84 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/search.svg" />
-    <link
-      rel="preconnect"
-      href="https://fonts.googleapis.com"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="preconnect"
-      href="https://fonts.gstatic.com"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="preload"
-      as="style"
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-      media="print"
-      onload="this.media='all'"
-    />
-    <script
-      defer
-      data-domain="unduck.link"
-      src="https://plausible.io/js/script.js"
-    ></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Unduck</title>
-    <meta
-      name="description"
-      content="A better default search engine (with bangs!)"
-    />
-  </head>
-  <body style="background-color: transparent">
-    <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="icon" type="image/gif" href="/goose.gif" />
+		<link
+			rel="search"
+			type="application/opensearchdescription+xml"
+			title="Unduck"
+			href="/opensearch.xml"
+		/>
+		<style>
+			:root {
+				/* Light mode colors */
+				--text-color: #1a1a1a;
+				--text-color-secondary: #666;
+				--text-color-hover: #333;
+				--bg-color: #fff;
+				--bg-color-secondary: #f5f5f5;
+				--bg-color-hover: #f0f0f0;
+				--bg-color-active: #e5e5e5;
+				--border-color: #ddd;
+			}
+
+			@media (prefers-color-scheme: dark) {
+				:root {
+					--text-color: #e0e0e0;
+					--text-color-secondary: #999;
+					--text-color-hover: #fff;
+					--bg-color: #121212;
+					--bg-color-secondary: #1e1e1e;
+					--bg-color-hover: #2a2a2a;
+					--bg-color-active: #333;
+					--border-color: #444;
+				}
+			}
+
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+
+			body {
+				font-family: system-ui, sans-serif;
+				line-height: 1.5;
+				color: var(--text-color);
+				background-color: var(--bg-color);
+			}
+
+			input {
+				padding: 8px 12px;
+				border: 1px solid var(--border-color);
+				border-radius: 4px;
+				width: 100%;
+				background: var(--bg-color-secondary);
+				color: var(--text-color);
+				font: inherit;
+			}
+
+			button {
+				font: inherit;
+				border: none;
+				background: none;
+				cursor: pointer;
+				color: var(--text-color-secondary);
+			}
+
+			button:hover {
+				background: var(--bg-color-hover);
+			}
+		</style>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Unduck</title>
+		<meta
+			name="description"
+			content="A better default search engine (with bangs!)"
+		/>
+	</head>
+	<body>
+		<div id="app"></div>
+		<script type="module" src="/src/main.ts"></script>
+	</body>
 </html>
