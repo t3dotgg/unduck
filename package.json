@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "update-bangs": "node scripts/update-bangs.js"
   },
   "devDependencies": {
     "typescript": "~5.7.2",
