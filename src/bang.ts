@@ -6253,15 +6253,6 @@ export const bangs = [
     u: "http://apps.splunk.com/apps/#/search/{{{s}}}",
   },
   {
-    c: "Shopping",
-    d: "",
-    r: 12,
-    s: "App Store on iTunes",
-    sc: "Tech",
-    t: "appstore",
-    u: "/?q=site%3Aitunes.apple.com%2Fus%2Fapp%2F+{{{s}}}",
-  },
-  {
     c: "Tech",
     d: "www.appvv.com",
     r: 0,
@@ -107883,15 +107874,6 @@ export const bangs = [
     sc: "Reference",
     t: "ujc",
     u: "http://prirucka.ujc.cas.cz/?slovo={{{s}}}&Hledej=Hledej",
-  },
-  {
-    c: "Shopping",
-    d: "duckduckgo.com",
-    r: 0,
-    s: "UK Appstore",
-    sc: "Online (marketplace)",
-    t: "ukappstore",
-    u: "https://duckduckgo.com/?q=site%3Aapps.apple.com%2Fgb%2Fapp%2F+{{{s}}}",
   },
   {
     c: "Entertainment",
