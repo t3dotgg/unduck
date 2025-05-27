@@ -10007,15 +10007,6 @@ export const bangs = [
   },
   {
     c: "Online Services",
-    d: "www.bing.com",
-    r: 0,
-    s: "Bing",
-    sc: "Search",
-    t: "bday",
-    u: 'https://www.bing.com/search?q={{{s}}}&filters=ex1%3a""ez1""',
-  },
-  {
-    c: "Online Services",
     d: "www.baidu.com",
     r: 103,
     s: "baidu",
@@ -12462,15 +12453,6 @@ export const bangs = [
     sc: "Reference",
     t: "bmonotes",
     u: "https://www.bmonotes.com/Search/GeneralSearch?query={{{s}}}",
-  },
-  {
-    c: "Online Services",
-    d: "www.bing.com",
-    r: 0,
-    s: "Bing",
-    sc: "Search",
-    t: "bmonth",
-    u: 'https://www.bing.com/search?q={{{s}}}&filters=ex1%3a""ez3""',
   },
   {
     c: "Shopping",
