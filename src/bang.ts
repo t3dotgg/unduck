@@ -100768,15 +100768,6 @@ export const bangs = [
     u: "http://www.time2game.be/index.php?main_page=advanced_search_result&search_in_description=1&keyword={{{s}}}",
   },
   {
-    c: "Tech",
-    d: "{{{s}}}.tor2web.org",
-    r: 0,
-    s: "Tor 2 Web",
-    sc: "Domains",
-    t: "t2w",
-    u: "https://{{{s}}}.tor2web.org/",
-  },
-  {
     c: "News",
     d: "t3n.de",
     r: 0,
@@ -105059,15 +105050,6 @@ export const bangs = [
     sc: "Specialty",
     t: "torrentfreak",
     u: "http://torrentfreak.com/search/{{{s}}}",
-  },
-  {
-    c: "Tech",
-    d: "{{{s}}}.tor2web.org",
-    r: 8,
-    s: "Tor 2 Web",
-    sc: "Domains",
-    t: "tor",
-    u: "https://{{{s}}}.tor2web.org/",
   },
   {
     c: "Online Services",
