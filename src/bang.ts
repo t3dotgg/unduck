@@ -90357,15 +90357,6 @@ export const bangs = [
     u: "https://actualidad.rt.com/search?q={{{s}}}",
   },
   {
-    c: "Tech",
-    d: "{{{s}}}.rtfd.io",
-    r: 0,
-    s: "Read the Docs",
-    sc: "Programming",
-    t: "rtfd",
-    u: "http://{{{s}}}.rtfd.io",
-  },
-  {
     c: "Shopping",
     d: "fr.shopping.rakuten.com",
     r: 0,
