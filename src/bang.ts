@@ -21,7 +21,7 @@ export const bangs = [
   },
   {
     c: "",
-    d: "https://grok.com/",
+    d: "www.grok.com",
     r: 0,
     s: "grok",
     sc: "",
