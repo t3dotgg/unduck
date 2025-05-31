@@ -35,7 +35,7 @@ export const bangs = [
     s: "",
     sc: "",
     t: "whats",
-    u: "http://web.whatsapp.com",
+    u: "https://web.whatsapp.com/",
   },
   {
     c: "Online Services",
