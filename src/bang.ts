@@ -30,7 +30,7 @@ export const bangs = [
   },
   {
     c: "social",
-    d: "www.web.whatsapp.com",
+    d: "web.whatsapp.com",
     r: 0,
     s: "whatsapp",
     sc: "",
