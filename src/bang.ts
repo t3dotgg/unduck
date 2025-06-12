@@ -12,12 +12,21 @@ export const bangs = [
   },
   {
     c: "AI",
+    d: "www.claude.ai",
+    r: 0,
+    s: "claude",
+    sc: "AI",
+    t: "cai",
+    u: "https://claude.ai/new?q={{{s}}}",
+  },
+  {
+    c: "AI",
     d: "www.chatgpt.com",
     r: 0,
     s: "ChatGPT",
     sc: "AI",
     t: "cgpt",
-    u: "https://www.chatgpt.com/?q={s}",
+    u: "https://www.chatgpt.com/?temporary-chat=true&q={{{s}}}",
   },
   {
     c: "Tech",
